@@ -14,5 +14,8 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "paper-scroll-header-panel": "PolymerElements/paper-scroll-header-panel#^1.0.14"
+  }
 }
