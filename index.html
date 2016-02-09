@@ -14,6 +14,9 @@
         <link rel="import" href="bower_components/webcomponentsjs/webcomponents.js">
         <link rel="import" href="bower_components/polymer/polymer.html">
         <link rel="import" href="bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
+        <link rel="import" href="bower_components/paper-header-panel/paper-header-panel.html">
+        <link rel="import" href="bower_components/paper-drawer-panel/paper-drawer-panel.html">
+        <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
         <link rel="import" href="bower_components/paper-styles/paper-styles.html">
         <link rel="import" href="bower_components/paper-styles/demo-pages.html">
         <link rel="import" href="bower_components/paper-styles/typography.html">
@@ -25,6 +28,9 @@
         <link rel="import" href="bower_components/paper-input/paper-input.html">
         <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
         <link rel="import" href="bower_components/paper-scroll-header-panel/demo/sample-content.html">
+        <link rel="import" href="bower_components/paper-item/paper-item.html">
+        <link rel="import" href="bower_components/paper-item/all-imports.html">
+        <link rel="import" href="bower_components/iron-image/iron-image.html">
         <!-- Fine Polymer Elements -->
 
         <link rel="stylesheet" href="css/normalize.css">
@@ -34,71 +40,74 @@
 
         <style is="custom-style">
 
-             paper-scroll-header-panel {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-color: var(--paper-grey-200, #eee);
+            html {
+                @apply(--paper-font-common-expensive-kerning);
+                @apply(--paper-font-common-base);
+            }
+            paper-toolbar.main {
+                background-color: var(--paper-grey-700);
+            }
 
-      /* background for toolbar when it is at its full size */
-      --paper-scroll-header-panel-full-header: {
-        background-image: url(img/bg2.jpg);
-      };
+            paper-toolbar.drawer {
+                background-color: var(--paper-grey-800);
+            }
 
-      /* background for toolbar when it is condensed */
-      --paper-scroll-header-panel-condensed-header: {
-        background-color: var(--paper-light-blue-600);
-      };
-    }
+            paper-item, paper-icon-item {
+                color: #424242;
+                @apply(--paper-font-body2);
+            }
 
-    paper-toolbar {
-      /* custom toolbar height */
-      height: 256px;
-      background-color: transparent;
-      overflow: visible;
-    }
+            paper-item + paper-item {
+                border-top: 1px solid #EEEEEE;
+            }
 
-    paper-icon-button {
-      margin: 0 8px;
-      --paper-icon-button-ink-color: white;
-    }
+            paper-icon-item + paper-icon-item {
+                
+                border-bottom: 1px solid #EEEEEE;
+            }
 
+            paper-icon-item:hover:before {
+                @apply(--layout-fit);
+                background: currentColor;
+                content: '';
+                opacity: var(--dark-divider-opacity);
+                pointer-events: none;
+            }
 
-    .search-box {
-      background-color: #fff;
-      border: 1px solid #eee;
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-      height: 40px;
-    }
+            .field {
+                background-color: #fff;
+                @apply(--shadow-elevation-2dp);
+                height: 40px;
+                color: #616161;
+            }
 
-    .search-box iron-icon {
-      color: var(--google-grey-700);
-      fill: var(--google-grey-700);
-      margin: 0 8px;
-    }
+            .title {
+                color: #fff;
+                @apply(--paper-font-headline);
+            }
     
-    .search-box input {
-      font-size: 20px;
-      outline: 0;
-      border: none;
-      margin-left: 20px;
-    }
+            .field input {
+                @apply(--paper-font-caption);
+                font-size: 15px;
+                outline: 0;
+                border: none;
+                margin-left: 14px;
+            }
 
-    .content {
-      padding: 8px;
-    }
+            @media only screen and (max-width : 600px) {
+                .field input {
+                    margin-left: 0;
+                }
+            }
 
-    .search-box {
-      @apply(--layout-flex);
-      @apply(--layout-center);
-      @apply(--layout-horizontal);
-    }
+            
 
-    .search-box input {
-      @apply(--layout-flex);
-    }
+            @media only screen and (min-width : 601px) {
+                paper-header-panel.header-drawer {
+                    @apply(--shadow-elevation-2dp);
+                }
+            }
+
         </style>
 
     </head>
@@ -109,25 +118,43 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <paper-scroll-header-panel condenses keep-condensed-header header-height="256" condensed-header-height="64">
+        <paper-drawer-panel >
 
-            <paper-toolbar>
+            <paper-header-panel mode="waterfall" drawer class="header-drawer">
+                <paper-toolbar class="drawer">
+                    <!-- <div class="title">DDDParts</div> -->
+                    <iron-image style="height:30%" sizing="contain" class="flex" src="img/dddparts-logo.png"></iron-image>
+                </paper-toolbar>
+                
+                <paper-icon-item style="border-bottom: 1px solid #EEEEEE;">
+                    <iron-icon icon="dashboard" item-icon></iron-icon> Dashboard
+                </paper-icon-item>
+                <paper-icon-item>
+                    <iron-icon icon="explore" item-icon></iron-icon> Explore
+                </paper-icon-item>
+                <paper-icon-item>
+                    <iron-icon icon="book" item-icon></iron-icon> Learn
+                </paper-icon-item>
+                <paper-icon-item>
+                    <iron-icon icon="create" item-icon></iron-icon> Create
+                </paper-icon-item>
+                <paper-icon-item>
+                    <iron-icon icon="account-circle" item-icon></iron-icon> Sign In
+                </paper-icon-item>
+                
+            </paper-header-panel>
 
-                <div class="search-box bottom">
-                    <iron-icon icon="menu"></iron-icon>
-                    <input>
-                    <iron-icon icon="av:mic"></iron-icon>
-                </div>
+            <paper-header-panel mode="waterfall" main class="header-main">
 
-            </paper-toolbar>
-
-            <div class="content">
-
+                <paper-toolbar class="main">
+                    <div class="flex center horizontal layout  field">
+                        <paper-icon-button icon="menu" paper-drawer-toggle style="color:#424242; margin-right:0;"></paper-icon-button>
+                        <input placeholder="Digita una parola chiave..." class="flex left">
+                    </div>
+                </paper-toolbar>
                 <sample-content size="100"></sample-content>
-
-            </div>
-
-        </paper-scroll-header-panel>
+            </paper-header-panel>
+        </paper-drawer-panel>
 
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
