@@ -108,6 +108,10 @@
                 }
             }
 
+            a.link{
+                text-decoration: none;
+            }
+
         </style>
 
     </head>
@@ -121,10 +125,12 @@
         <paper-drawer-panel >
 
             <paper-header-panel mode="waterfall" drawer class="header-drawer">
-                <paper-toolbar class="drawer">
-                    <!-- <div class="title">DDDParts</div> -->
-                    <iron-image style="height:30%" sizing="contain" class="flex" src="img/dddparts-logo.png"></iron-image>
-                </paper-toolbar>
+                <a href="index.html" class="link">
+                    <paper-toolbar class="drawer">
+                        <!-- <div class="title">DDDParts</div> -->
+                        <iron-image style="height:30%" sizing="contain" class="flex" src="img/dddparts-logo.png"></iron-image>
+                    </paper-toolbar>
+                </a>
                 
                 <paper-icon-item style="border-bottom: 1px solid #EEEEEE;">
                     <iron-icon icon="dashboard" item-icon></iron-icon> Dashboard
@@ -138,9 +144,11 @@
                 <paper-icon-item>
                     <iron-icon icon="create" item-icon></iron-icon> Create
                 </paper-icon-item>
-                <paper-icon-item>
-                    <iron-icon icon="account-circle" item-icon></iron-icon> Sign In
-                </paper-icon-item>
+                <a href="signin.html" class="link">
+                    <paper-icon-item>
+                        <iron-icon icon="account-circle" item-icon></iron-icon> Accedi
+                    </paper-icon-item>
+                </a>
                 
             </paper-header-panel>
 
