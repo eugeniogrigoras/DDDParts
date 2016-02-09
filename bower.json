@@ -16,6 +16,8 @@
     "tests"
   ],
   "dependencies": {
-    "paper-scroll-header-panel": "PolymerElements/paper-scroll-header-panel#^1.0.14"
+    "paper-scroll-header-panel": "PolymerElements/paper-scroll-header-panel#^1.0.14",
+    "paper-input": "PolymerElements/paper-input#^1.1.5",
+    "paper-styles": "PolymerElements/paper-styles#^1.1.3"
   }
 }
