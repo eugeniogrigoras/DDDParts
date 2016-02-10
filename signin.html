@@ -118,11 +118,15 @@
             .button-container {
                 @apply(--layout-horizontal);
                 @apply(--paper-font-caption);
-                color:#616161;
+                color:#757575;
+            }
+
+            .button-container paper-button {
+                margin:1px 2px 2px 2px!important;
             }
 
             .submit-button-container paper-button {
-                background-color: #424242;
+                background-color: var(--paper-red-400);
                 color:white;
             }
 
@@ -135,6 +139,10 @@
                 @apply(--paper-font-title);
                 background-color: #424242;
                 color:white;
+            }
+
+            paper-input-container {
+                --paper-input-container-underline-focus: var(--paper-red-500);
             }
 
         </style>
