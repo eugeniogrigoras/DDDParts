@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Login</title>
+        <title>Register</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -37,7 +37,6 @@
         <link rel="import" href="bower_components/paper-menu/paper-menu.html">
         <link rel="import" href="bower_components/iron-form.html">
         <link rel="import" href="bower_components/simple-element.html">
-        
         <!-- Fine Polymer Elements -->
 
         <link rel="stylesheet" href="css/normalize.css">
@@ -175,7 +174,7 @@
                 <paper-icon-item onclick="location.href = '#'">
                     <iron-icon icon="create" item-icon></iron-icon> Create
                 </paper-icon-item>
-                <paper-icon-item onclick="location.href = 'login.html'">
+                <paper-icon-item onclick="location.href = 'signin.html'">
                     <iron-icon icon="account-circle" item-icon></iron-icon> Login
                 </paper-icon-item>
             </paper-header-panel>
@@ -194,21 +193,41 @@
                     <div class="vertical-section" style="padding:0;">
                         <div class="title" style="padding:24px">Login</div>
                         <form style="padding:24px;" is="iron-form" id="formGet" method="get" action="/">
+                            <paper-input name="name" label="Name" type="text" required></paper-input>
+                            <paper-input name="surname" label="Surname" type="text" required></paper-input>
+                            <paper-input name="email" label="Email" type="text" required></paper-input>
+                            <paper-dropdown-menu label="Region" style="width: 78%;">
+                                  <paper-listbox class="dropdown-content">
+                                        <paper-item>allosaurus</paper-item>
+                                        <paper-item>brontosaurus</paper-item>
+                                        <paper-item>carcharodontosaurus</paper-item>
+                                        <paper-item>diplodocus</paper-item>
+                                  </paper-listbox>
+                            </paper-dropdown-menu>
+                            <paper-dropdown-menu label="Prv." style="width: 20%;">
+                                  <paper-listbox class="dropdown-content">
+                                        <paper-item>allosaurus</paper-item>
+                                        <paper-item>brontosaurus</paper-item>
+                                        <paper-item>carcharodontosaurus</paper-item>
+                                        <paper-item>diplodocus</paper-item>
+                                  </paper-listbox>
+                            </paper-dropdown-menu>
+                            <paper-dropdown-menu label="City" style="width: 85%;">
+                                  <paper-listbox class="dropdown-content">
+                                        <paper-item>allosaurus</paper-item>
+                                        <paper-item>brontosaurus</paper-item>
+                                        <paper-item>carcharodontosaurus</paper-item>
+                                        <paper-item>diplodocus</paper-item>
+                                  </paper-listbox>
+                            </paper-dropdown-menu>
                             <paper-input name="username" label="Username" type="text" required></paper-input>
                             <paper-input name="password" label="Password" type="password" required></paper-input>
-                            <br>
-                            <paper-checkbox checked class="grey">Remember me</paper-checkbox>
+                            <paper-input name="description" label="Description" type="text"></paper-input>
                             <br><br>
                             <div class="submit-button-container">
-                                <paper-button onclick="submitHandler(event)">Login</paper-button>
+                                <paper-button onclick="submitHandler(event)">Submit</paper-button>
                             </div>
                         </form>
-                        <hr style="margin:0;">
-                        <div class="button-container">
-                            <paper-button>LOST YOUR PASSWORD?</paper-button>
-                            <div class="flex"></div>
-                            <paper-button onclick="location.href = 'register.html'">REGISTER</paper-button>
-                        </div>
                     </div>
                 </div>
                 <!-- Fine Sign In  -->
