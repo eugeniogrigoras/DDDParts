@@ -59,17 +59,12 @@
                 background-color: var(--paper-grey-800);
             }
 
-            paper-item, paper-icon-item {
+            paper-icon-item {
                 color: #424242;
                 @apply(--paper-font-body2);
             }
 
-            paper-item + paper-item {
-                border-top: 1px solid #EEEEEE;
-            }
-
             paper-icon-item + paper-icon-item {
-                
                 border-bottom: 1px solid #EEEEEE;
             }
 
@@ -87,11 +82,6 @@
                 height: 40px;
                 color: #616161;
             }
-
-            .title {
-                color: #fff;
-                @apply(--paper-font-headline);
-            }
     
             .field input {
                 @apply(--paper-font-caption);
@@ -107,22 +97,44 @@
                 }
             }
 
-            
-
             @media only screen and (min-width : 601px) {
                 paper-header-panel.header-drawer {
                     @apply(--shadow-elevation-2dp);
                 }
             }
 
-            a.link{
-                text-decoration: none;
-                color: #616161;
+            paper-toolbar.drawer:hover, paper-header-panel.header-drawer paper-icon-item:hover {
+                cursor:pointer;
             }
 
-            div.right-element{
-                width: 60%;
-                margin: auto;
+            paper-checkbox.grey {
+                --paper-checkbox-checked-color: var(--paper-grey-800);
+                --paper-checkbox-checked-ink-color: var(--paper-grey-800);
+                --paper-checkbox-unchecked-color: var(--paper-grey-800);
+                --paper-checkbox-unchecked-ink-color: var(--paper-grey-800);
+                --paper-checkbox-label-color: var(--paper-grey-800);
+            }
+
+            .button-container {
+                @apply(--layout-horizontal);
+                @apply(--paper-font-caption);
+                color:#616161;
+            }
+
+            .submit-button-container paper-button {
+                background-color: #424242;
+                color:white;
+            }
+
+            .submit-button-container {
+                @apply(--layout-horizontal);
+                @apply(--layout-end-justified);
+            }
+
+            .title {
+                @apply(--paper-font-title);
+                background-color: #424242;
+                color:white;
             }
 
         </style>
@@ -138,30 +150,25 @@
         <paper-drawer-panel >
 
             <paper-header-panel mode="waterfall" drawer class="header-drawer">
-                <a href="index.html" class="link">
-                    <paper-toolbar class="drawer">
-                        <!-- <div class="title">DDDParts</div> -->
-                        <iron-image style="height:30%" sizing="contain" class="flex" src="img/dddparts-logo.png"></iron-image>
-                    </paper-toolbar>
-                </a>  
-
-                <paper-icon-item style="border-bottom: 1px solid #EEEEEE;">
+                <paper-toolbar class="drawer" onclick="location.href = '#'">
+                    <iron-image style="height:30%" sizing="contain" class="flex" src="img/dddparts-logo.png"></iron-image>
+                </paper-toolbar>
+                
+                <paper-icon-item onclick="location.href = '#'" style="border-bottom: 1px solid #EEEEEE;">
                     <iron-icon icon="dashboard" item-icon></iron-icon> Dashboard
                 </paper-icon-item>
-                <paper-icon-item>
+                <paper-icon-item onclick="location.href = '#'">
                     <iron-icon icon="explore" item-icon></iron-icon> Explore
                 </paper-icon-item>
-                <paper-icon-item>
+                <paper-icon-item onclick="location.href = '#'">
                     <iron-icon icon="book" item-icon></iron-icon> Learn
                 </paper-icon-item>
-                <paper-icon-item>
+                <paper-icon-item onclick="location.href = '#'">
                     <iron-icon icon="create" item-icon></iron-icon> Create
                 </paper-icon-item>
-                <a href="signin.html" class="link">
-                    <paper-icon-item>
-                        <iron-icon icon="account-circle" item-icon></iron-icon> Accedi
-                    </paper-icon-item>
-                </a>
+                <paper-icon-item onclick="location.href = 'signin.html'">
+                    <iron-icon icon="account-circle" item-icon></iron-icon> Accedi
+                </paper-icon-item>
             </paper-header-panel>
 
             <paper-header-panel mode="waterfall" main class="header-main">
@@ -174,54 +181,28 @@
                 </paper-toolbar>
 
                 <!-- Inizio Sign In  -->
-                <div class="right-element">
-                  <h2>Accedi</h2>
-                  <div class="horizontal-section">
-                    <form is="iron-form" id="formGet" method="get" action="/">
-                      <paper-input name="name" label="Nome Utente" required></paper-input>
-                      <paper-input name="animal" label="Password" type="password" required></paper-input>
-                      <br>
-                <!-- 
-                      <input type="checkbox" name="food" value="donuts" checked> I like donuts<br>
-                      <input type="checkbox" name="food" value="pizza" required> I like pizza<br>
-                      <paper-checkbox name="food" value="cheese" required>I like cheese</paper-checkbox><br>
-
-                      <paper-dropdown-menu label="Cars" name="cars" required>
-                        <paper-menu class="dropdown-content">
-                          <paper-item value="volvo">Volvo</paper-item>
-                          <paper-item value="saab">Saab</paper-item>
-                          <paper-item value="fiat">Fiat</paper-item>
-                          <paper-item value="audi">Audi</paper-item>
-                        </paper-menu>
-                      </paper-dropdown-menu>
-
-                      <p>
-                        Sample custom element, not required: <br>
-                        <simple-element name="custom-one"></simple-element>
-                      </p>
-
-                      <p>
-                        Sample custom element, required: (look, styling!)<br>
-                        <simple-element required name="custom-two"></simple-element><br>
-                      </p>
-
-                      <br><br>
-                -->
-                      <paper-button 
-                          onclick="submitHandler(event)">Accedi</paper-button>
-                      <paper-button 
-                          onclick="resetHandler(event)">Reset</paper-button>
-                    </form>
-                  </div>
+                <div class="centered" style="margin-top:24px">
+                    <div class="vertical-section" style="padding:0;">
+                        <div class="title" style="padding:24px">Login</div>
+                        <form style="padding:24px;" is="iron-form" id="formGet" method="get" action="/">
+                            <paper-input name="username" label="Username" type="text" required></paper-input>
+                            <paper-input name="password" label="Password" type="password" required></paper-input>
+                            <br>
+                            <paper-checkbox checked class="grey">Ricordami</paper-checkbox>
+                            <br><br>
+                            <div class="submit-button-container">
+                                <paper-button onclick="submitHandler(event)">Accedi</paper-button>
+                            </div>
+                        </form>
+                        <hr style="margin:0;">
+                        <div class="button-container">
+                            <paper-button>LOST YOUR PASSWORD?</paper-button>
+                            <div class="flex"></div>
+                            <paper-button>REGISTER</paper-button>
+                        </div>
+                    </div>
                 </div>
                 <!-- Fine Sign In  -->
-                <br><br>
-                <div class="right-element">
-                    Non hai ancora un account?
-                    <a href="registrazione.html" class="link">
-                        <paper-button>Registrati</paper-button>
-                    </a>
-                </div>
 
             </paper-header-panel>
         </paper-drawer-panel>

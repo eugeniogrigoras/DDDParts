@@ -52,17 +52,12 @@
                 background-color: var(--paper-grey-800);
             }
 
-            paper-item, paper-icon-item {
+            paper-icon-item {
                 color: #424242;
                 @apply(--paper-font-body2);
             }
 
-            paper-item + paper-item {
-                border-top: 1px solid #EEEEEE;
-            }
-
             paper-icon-item + paper-icon-item {
-                
                 border-bottom: 1px solid #EEEEEE;
             }
 
@@ -80,11 +75,6 @@
                 height: 40px;
                 color: #616161;
             }
-
-            .title {
-                color: #fff;
-                @apply(--paper-font-headline);
-            }
     
             .field input {
                 @apply(--paper-font-caption);
@@ -100,16 +90,14 @@
                 }
             }
 
-            
-
             @media only screen and (min-width : 601px) {
                 paper-header-panel.header-drawer {
                     @apply(--shadow-elevation-2dp);
                 }
             }
 
-            a.link{
-                text-decoration: none;
+            paper-toolbar.drawer:hover, paper-header-panel.header-drawer paper-icon-item:hover {
+                cursor:pointer;
             }
 
         </style>
@@ -125,30 +113,25 @@
         <paper-drawer-panel >
 
             <paper-header-panel mode="waterfall" drawer class="header-drawer">
-                <a href="index.html" class="link">
-                    <paper-toolbar class="drawer">
-                        <!-- <div class="title">DDDParts</div> -->
-                        <iron-image style="height:30%" sizing="contain" class="flex" src="img/dddparts-logo.png"></iron-image>
-                    </paper-toolbar>
-                </a>
+                <paper-toolbar class="drawer" onclick="location.href = '#'">
+                    <iron-image style="height:30%" sizing="contain" class="flex" src="img/dddparts-logo.png"></iron-image>
+                </paper-toolbar>
                 
-                <paper-icon-item style="border-bottom: 1px solid #EEEEEE;">
+                <paper-icon-item onclick="location.href = '#'" style="border-bottom: 1px solid #EEEEEE;">
                     <iron-icon icon="dashboard" item-icon></iron-icon> Dashboard
                 </paper-icon-item>
-                <paper-icon-item>
+                <paper-icon-item onclick="location.href = '#'">
                     <iron-icon icon="explore" item-icon></iron-icon> Explore
                 </paper-icon-item>
-                <paper-icon-item>
+                <paper-icon-item onclick="location.href = '#'">
                     <iron-icon icon="book" item-icon></iron-icon> Learn
                 </paper-icon-item>
-                <paper-icon-item>
+                <paper-icon-item onclick="location.href = '#'">
                     <iron-icon icon="create" item-icon></iron-icon> Create
                 </paper-icon-item>
-                <a href="signin.html" class="link">
-                    <paper-icon-item>
-                        <iron-icon icon="account-circle" item-icon></iron-icon> Accedi
-                    </paper-icon-item>
-                </a>
+                <paper-icon-item onclick="location.href = 'signin.html'">
+                    <iron-icon icon="account-circle" item-icon></iron-icon> Accedi
+                </paper-icon-item>
                 
             </paper-header-panel>
 
