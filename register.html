@@ -26,6 +26,7 @@
         <link rel="import" href="bower_components/iron-icons/av-icons.html">
         <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
         <link rel="import" href="bower_components/paper-input/paper-input.html">
+        <link rel="import" href="bower_components/paper-input/paper-textarea.html">
         <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
         <link rel="import" href="bower_components/paper-scroll-header-panel/demo/sample-content.html">
         <link rel="import" href="bower_components/paper-item/paper-item.html">
@@ -186,19 +187,19 @@
                 <paper-toolbar class="main">
                     <div class="flex center horizontal layout  field">
                         <paper-icon-button icon="menu" paper-drawer-toggle style="color:#424242; margin-right:0;"></paper-icon-button>
-                        <input placeholder="Digita una parola chiave..." class="flex left">
+                        <input placeholder="Search..." class="flex left">
                     </div>
                 </paper-toolbar>
 
                 <!-- Inizio Sign In  -->
                 <div class="centered" style="margin-top:24px">
                     <div class="vertical-section" style="padding:0;">
-                        <div class="title" style="padding:24px">A proposito di te</div>
+                        <div class="title" style="padding:24px">About You</div>
                         <form style="padding:24px;" is="iron-form" id="formGet" method="get" action="/">
-                            <paper-input name="name" label="Name" type="text" required></paper-input>
-                            <paper-input name="surname" label="Surname" type="text" required></paper-input>
+                            <paper-input name="name" label="Name" type="text" required auto-validate pattern="[a-zA-Z]*" error-message="letters only!"></paper-input>
+                            <paper-input name="surname" label="Surname" type="text" required auto-validate pattern="[a-zA-Z]*" error-message="letters only!"></paper-input>
                             <gold-email-input required auto-validate error-message="Please enter a valid email" label="Email contact"></gold-email-input>
-                            <paper-dropdown-menu label="Regione" style="width: 100%;">
+                            <paper-dropdown-menu label="Region" style="width: 100%;">
                                   <paper-listbox class="dropdown-content" selected="-1">
                                         <paper-item>allosaurus</paper-item>
                                         <paper-item>brontosaurus</paper-item>
@@ -206,7 +207,7 @@
                                         <paper-item>diplodocus</paper-item>
                                   </paper-listbox>
                             </paper-dropdown-menu>
-                            <paper-dropdown-menu label="Provincia" style="width: 100%;">
+                            <paper-dropdown-menu label="Province" style="width: 100%;">
                                   <paper-listbox class="dropdown-content">
                                         <paper-item>allosaurus</paper-item>
                                         <paper-item>brontosaurus</paper-item>
@@ -214,7 +215,7 @@
                                         <paper-item>diplodocus</paper-item>
                                   </paper-listbox>
                             </paper-dropdown-menu>
-                            <paper-dropdown-menu label="Città" style="width: 100%;">
+                            <paper-dropdown-menu label="City" style="width: 100%;">
                                   <paper-listbox class="dropdown-content">
                                         <paper-item>allosaurus</paper-item>
                                         <paper-item>brontosaurus</paper-item>
@@ -224,7 +225,8 @@
                             </paper-dropdown-menu>
                             <paper-input name="username" label="Username" type="text" required></paper-input>
                             <paper-input name="password" label="Password" type="password" required></paper-input>
-                            <paper-input name="description" label="Description" type="text"></paper-input>
+                            <paper-input name="repeat-password" label="Repeat Password" type="password" required></paper-input>
+                            <paper-textarea name="description" label="Description" type="text" char-counter maxlength="300"></paper-textarea>
                             <br><br>
                             <div class="submit-button-container">
                                 <paper-button onclick="submitHandler(event)">Submit</paper-button>
