@@ -207,13 +207,9 @@
                                             
                                             $comando="select * from regioni order by regioni.nomeregione";
 
-                                            
                                             $record=$conn->query($comando);
-
-
                                            
                                             while ($riga=$record->fetch_assoc()) {
-                                                
                                                 echo "<paper-item onclick='regionselect(this.id)' id='";
                                                 echo "$riga[idregione]";
                                                 echo "'>";
@@ -226,8 +222,10 @@
                                         ?>
                                   </paper-listbox>
                             </paper-dropdown-menu>
-                            <paper-dropdown-menu label="Province" style="width: 100%;">
-                                  <paper-listbox id="province" class="dropdown-content"></paper-listbox>
+                            <paper-dropdown-menu label="Province" style="width: 100%;" onclick="prova();">
+                                <paper-listbox id="province" class="dropdown-content">
+                                    
+                                </paper-listbox>
                             </paper-dropdown-menu>
                             <paper-dropdown-menu label="City" style="width: 100%;">
                                   <paper-listbox class="dropdown-content">
@@ -245,6 +243,7 @@
                             <div class="submit-button-container">
                                 <paper-button onclick="submitHandler(event)">Submit</paper-button>
                             </div>
+                            <div id="prova1"></div>
                         </form>
                     </div>
                 </div>
@@ -269,16 +268,24 @@
         </script>
 
         <script>
+            function prova () {
+                document.getElementById("province").innerHTML = "<paper-item>ciao</paper-item>";
+            }
             function regionselect(str) {
+                alert(str);
+                alert(document.getElementById("province").innerHTML);
+                document.getElementById("province").innerHTML = "";
+                alert(document.getElementById("province").innerHTML);
                 var xhttp;
                 if (str.length == 0) { 
                     document.getElementById("province").innerHTML = "";
                     return;
                 }
-                xhttp = new X-Request();
+                xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
-                        document.getElementById("province").innerHTML = xhttp.responseText;
+                        document.getElementById("province").html = xhttp.responseText;
+                        alert(xhttp.responseText);
                     }
                 };
                 xhttp.open("GET", "getprovince.php?idregione="+str, true);
