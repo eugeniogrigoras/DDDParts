@@ -200,20 +200,34 @@
                             <paper-input name="surname" label="Surname" type="text" required auto-validate pattern="[a-zA-Z]*" error-message="letters only!"></paper-input>
                             <gold-email-input required auto-validate error-message="Please enter a valid email" label="Email contact"></gold-email-input>
                             <paper-dropdown-menu label="Region" style="width: 100%;">
-                                  <paper-listbox class="dropdown-content" selected="-1">
-                                        <paper-item>allosaurus</paper-item>
-                                        <paper-item>brontosaurus</paper-item>
-                                        <paper-item>carcharodontosaurus</paper-item>
-                                        <paper-item>diplodocus</paper-item>
+                                  <paper-listbox class="dropdown-content" style="width:200px!important">
+                                        <?php
+                                            
+                                            $conn= new mysqli("localhost","root","",'my_dddparts'); 
+                                            
+                                            $comando="select * from regioni order by regioni.nomeregione";
+
+                                            
+                                            $record=$conn->query($comando);
+
+
+                                           
+                                            while ($riga=$record->fetch_assoc()) {
+                                                
+                                                echo "<paper-item onclick='regionselect(this.id)' id='";
+                                                echo "$riga[idregione]";
+                                                echo "'>";
+                                                echo "$riga[nomeregione]";
+                                                echo "</paper-item>";
+                                            }
+
+                                            mysqli_close($conn);
+
+                                        ?>
                                   </paper-listbox>
                             </paper-dropdown-menu>
                             <paper-dropdown-menu label="Province" style="width: 100%;">
-                                  <paper-listbox class="dropdown-content">
-                                        <paper-item>allosaurus</paper-item>
-                                        <paper-item>brontosaurus</paper-item>
-                                        <paper-item>carcharodontosaurus</paper-item>
-                                        <paper-item>diplodocus</paper-item>
-                                  </paper-listbox>
+                                  <paper-listbox id="province" class="dropdown-content"></paper-listbox>
                             </paper-dropdown-menu>
                             <paper-dropdown-menu label="City" style="width: 100%;">
                                   <paper-listbox class="dropdown-content">
@@ -253,5 +267,24 @@
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
             ga('create','UA-XXXXX-X','auto');ga('send','pageview');
         </script>
+
+        <script>
+            function regionselect(str) {
+                var xhttp;
+                if (str.length == 0) { 
+                    document.getElementById("province").innerHTML = "";
+                    return;
+                }
+                xhttp = new X-Request();
+                xhttp.onreadystatechange = function() {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                        document.getElementById("province").innerHTML = xhttp.responseText;
+                    }
+                };
+                xhttp.open("GET", "getprovince.php?idregione="+str, true);
+                xhttp.send();   
+            }
+        </script>
+
     </body>
 </html>
