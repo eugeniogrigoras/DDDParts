@@ -222,19 +222,8 @@
                                         ?>
                                   </paper-listbox>
                             </paper-dropdown-menu>
-                            <paper-dropdown-menu label="Province" style="width: 100%;" onclick="prova();">
-                                <paper-listbox id="province" class="dropdown-content">
-                                    
-                                </paper-listbox>
-                            </paper-dropdown-menu>
-                            <paper-dropdown-menu label="City" style="width: 100%;">
-                                  <paper-listbox class="dropdown-content">
-                                        <paper-item>allosaurus</paper-item>
-                                        <paper-item>brontosaurus</paper-item>
-                                        <paper-item>carcharodontosaurus</paper-item>
-                                        <paper-item>diplodocus</paper-item>
-                                  </paper-listbox>
-                            </paper-dropdown-menu>
+                            <div id="province"></div>
+                            <div id="comune"></div>
                             <paper-input name="username" label="Username" type="text" required></paper-input>
                             <paper-input name="password" label="Password" type="password" required></paper-input>
                             <paper-input name="repeat-password" label="Repeat Password" type="password" required></paper-input>
@@ -268,14 +257,8 @@
         </script>
 
         <script>
-            function prova () {
-                document.getElementById("province").innerHTML = "<paper-item>ciao</paper-item>";
-            }
             function regionselect(str) {
-                alert(str);
-                alert(document.getElementById("province").innerHTML);
-                document.getElementById("province").innerHTML = "";
-                alert(document.getElementById("province").innerHTML);
+                document.getElementById("comune").innerHTML = "";
                 var xhttp;
                 if (str.length == 0) { 
                     document.getElementById("province").innerHTML = "";
@@ -284,11 +267,25 @@
                 xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
-                        document.getElementById("province").html = xhttp.responseText;
-                        alert(xhttp.responseText);
+                        document.getElementById("province").innerHTML = xhttp.responseText;
                     }
                 };
                 xhttp.open("GET", "getprovince.php?idregione="+str, true);
+                xhttp.send();   
+            }
+            function provinceselect(str) {
+                var xhttp;
+                if (str.length == 0) { 
+                    document.getElementById("comune").innerHTML = "";
+                    return;
+                }
+                xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                        document.getElementById("comune").innerHTML = xhttp.responseText;
+                    }
+                };
+                xhttp.open("GET", "getcomune.php?idprovincia="+str, true);
                 xhttp.send();   
             }
         </script>
