@@ -39,6 +39,7 @@
         <link rel="import" href="bower_components/iron-form/iron-form.html">
         <link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
         <link rel="import" href="bower_components/gold-email-input/gold-email-input.html">
+        <link rel="import" href="bower_components/file-upload/file-upload.html">
         <!-- Fine Polymer Elements -->
 
         <link rel="stylesheet" href="css/normalize.css">
@@ -228,6 +229,7 @@
                             <paper-input name="password" label="Password" type="password" required></paper-input>
                             <paper-input name="repeat-password" label="Repeat Password" type="password" required></paper-input>
                             <paper-textarea name="description" label="Description" type="text" char-counter maxlength="300"></paper-textarea>
+                            <file-upload droppable="true"  multi="true" accept="image/*" style="margin: auto;">Choose Image</file-upload>
                             <br><br>
                             <div class="submit-button-container">
                                 <paper-button onclick="submitHandler(event)">Submit</paper-button>
