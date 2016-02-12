@@ -83,7 +83,7 @@
                 height: 40px;
                 color: #616161;
             }
-    
+
             .field input {
                 @apply(--paper-font-caption);
                 font-size: 15px;
@@ -152,7 +152,7 @@
 
     </head>
     <body>
-        
+
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -164,7 +164,7 @@
                 <paper-toolbar class="drawer" onclick="location.href = 'index.html'">
                     <iron-image style="height:30%" sizing="contain" class="flex" src="img/dddparts-logo.png"></iron-image>
                 </paper-toolbar>
-                
+
                 <paper-icon-item onclick="location.href = '#'" style="border-bottom: 1px solid #EEEEEE;">
                     <iron-icon icon="dashboard" item-icon></iron-icon> Dashboard
                 </paper-icon-item>
@@ -199,21 +199,21 @@
                             <paper-input name="name" label="Name" type="text" required auto-validate pattern="[a-zA-Z]*" error-message="letters only!"></paper-input>
                             <paper-input name="surname" label="Surname" type="text" required auto-validate pattern="[a-zA-Z]*" error-message="letters only!"></paper-input>
                             <gold-email-input required auto-validate error-message="Please enter a valid email" label="Email contact"></gold-email-input>
-                            <paper-dropdown-menu label="Region" style="width: 100%;">
+                            <paper-dropdown-menu label="Region" style="width: 100%;" id="qua">
                                   <paper-listbox class="dropdown-content" style="width:200px!important">
                                         <?php
-                                            
-                                            $conn= new mysqli("localhost","root","",'my_dddparts'); 
-                                            
+
+                                            $conn= new mysqli("localhost","root","",'my_dddparts');
+
                                             $comando="select * from regioni order by regioni.nomeregione";
 
-                                            
+
                                             $record=$conn->query($comando);
 
 
-                                           
+
                                             while ($riga=$record->fetch_assoc()) {
-                                                
+
                                                 echo "<paper-item onclick='regionselect(this.id)' id='";
                                                 echo "$riga[idregione]";
                                                 echo "'>";
@@ -269,9 +269,25 @@
         </script>
 
         <script>
-            function regionselect(str) {
+            var data;
+            $(document).ready(function() {
+                $('formGet').find('qua').on('change', function(){
+                    selezionato=$(this).val();
+                    $.ajax({
+                        url: 'getprovince.php',
+                        method: 'get',
+                        data: {
+                            s: selezionato
+                        },
+                        success: function(){
+                            $('#province').html(dati);
+                        }
+                    });
+                });
+            });
+            /*function regionselect(str) {
                 var xhttp;
-                if (str.length == 0) { 
+                if (str.length == 0) {
                     document.getElementById("province").innerHTML = "";
                     return;
                 }
@@ -282,8 +298,8 @@
                     }
                 };
                 xhttp.open("GET", "getprovince.php?idregione="+str, true);
-                xhttp.send();   
-            }
+                xhttp.send();
+            }*/
         </script>
 
     </body>
