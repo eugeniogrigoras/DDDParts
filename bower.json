@@ -35,6 +35,7 @@
     "paper-listbox": "polymerelements/paper-listbox#^1.1.2",
     "gold-email-input": "PolymerElements/gold-email-input#^1.0.7",
     "iron-component-page": "PolymerElements/iron-component-page#^1.1.4",
-    "iron-ajax": "PolymerElements/iron-ajax#^1.1.1"
+    "iron-ajax": "PolymerElements/iron-ajax#^1.1.1",
+    "file-upload": "^1.6.3"
   }
 }
