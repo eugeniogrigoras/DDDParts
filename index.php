@@ -129,7 +129,7 @@
                 <paper-icon-item onclick="location.href = '#'">
                     <iron-icon icon="create" item-icon></iron-icon> Create
                 </paper-icon-item>
-                <paper-icon-item onclick="location.href = 'login.html'">
+                <paper-icon-item onclick="location.href = 'login.php'">
                     <iron-icon icon="account-circle" item-icon></iron-icon> Login
                 </paper-icon-item>
                 
