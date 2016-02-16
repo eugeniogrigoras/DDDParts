@@ -223,9 +223,9 @@
                             </paper-dropdown-menu>
                             <div id="province"></div>
                             <div id="comune"></div>
-                            <paper-input name="username" label="Username" type="text"></paper-input>
-                            <paper-input name="password" label="Password" type="password"></paper-input>
-                            <paper-input name="repeat-password" label="Repeat Password" type="password"></paper-input>
+                            <paper-input required name="username" label="Username" type="text"></paper-input>
+                            <paper-input required name="password" label="Password" type="password"></paper-input>
+                            <paper-input required name="repeat-password" label="Repeat Password" type="password"></paper-input>
                             <br>
                             <input type="file" name="fileToUpload" id="fileToUpload">
                             <img id="blah" src="#" alt="your image" />
