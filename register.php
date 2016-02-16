@@ -39,7 +39,6 @@
         <link rel="import" href="bower_components/iron-form/iron-form.html">
         <link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
         <link rel="import" href="bower_components/gold-email-input/gold-email-input.html">
-        <link rel="import" href="bower_components/file-upload/file-upload.html">
         <!-- Fine Polymer Elements -->
 
         <link rel="stylesheet" href="css/normalize.css">
@@ -196,14 +195,13 @@
                 <div class="centered" style="margin-top:24px">
                     <div class="vertical-section" style="padding:0;">
                         <div class="title" style="padding:24px">About You</div>
-                        <form style="padding:24px;" is="iron-form" id="formGet" method="get" action="/">
-                            <paper-input name="name" label="Name" type="text" required auto-validate pattern="[a-zA-Z]*" error-message="letters only!"></paper-input>
-                            <paper-input name="surname" label="Surname" type="text" required auto-validate pattern="[a-zA-Z]*" error-message="letters only!"></paper-input>
-                            <gold-email-input required auto-validate error-message="Please enter a valid email" label="Email contact"></gold-email-input>
+                        <form  style="padding:24px;" is="iron-form" id="formPost" action="upload.php" method="post" enctype="multipart/form-data">
+                            <paper-input required name="name" label="Name" type="text"  auto-validate pattern="[a-zA-Z]*" error-message="Letters only!"></paper-input>
+                            <paper-input required name="surname" label="Surname" type="text"  auto-validate pattern="[a-zA-Z]*" error-message="Letters only!"></paper-input>
+                            <gold-email-input required auto-validate error-message="Please enter a valid email!" label="Email contact"></gold-email-input>
                             <paper-dropdown-menu label="Region" style="width: 100%;">
                                   <paper-listbox class="dropdown-content" style="width:200px!important">
                                         <?php
-                                            
                                             $conn= new mysqli("localhost","root","",'my_dddparts'); 
                                             
                                             $comando="select * from regioni order by regioni.nomeregione";
@@ -225,16 +223,18 @@
                             </paper-dropdown-menu>
                             <div id="province"></div>
                             <div id="comune"></div>
-                            <paper-input name="username" label="Username" type="text" required></paper-input>
-                            <paper-input name="password" label="Password" type="password" required></paper-input>
-                            <paper-input name="repeat-password" label="Repeat Password" type="password" required></paper-input>
+                            <paper-input name="username" label="Username" type="text"></paper-input>
+                            <paper-input name="password" label="Password" type="password"></paper-input>
+                            <paper-input name="repeat-password" label="Repeat Password" type="password"></paper-input>
+                            <br>
+                            <input type="file" name="fileToUpload" id="fileToUpload">
+                            <img id="blah" src="#" alt="your image" />
                             <paper-textarea name="description" label="Description" type="text" char-counter maxlength="300"></paper-textarea>
-                            <file-upload droppable="true"  multi="true" accept="image/*" style="margin: auto;">Choose Image</file-upload>
                             <br><br>
                             <div class="submit-button-container">
-                                <paper-button onclick="submitHandler(event)">Submit</paper-button>
+                                <paper-button onclick="submitForm()">Submit</paper-button>
                             </div>
-                            <div id="prova1"></div>
+                            <button type="submit" id="SubmitButton" name="submit" style="visibility:hidden"></button>
                         </form>
                     </div>
                 </div>
@@ -290,7 +290,27 @@
                 xhttp.open("GET", "getcomune.php?idprovincia="+str, true);
                 xhttp.send();   
             }
-        </script>
 
+            function submitForm(){
+                document.getElementById('SubmitButton').click();
+                console.log("Submitted!")
+            }
+
+            $("#fileToUpload").change(function(){
+                readURL(this);
+            });
+
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    
+                    reader.onload = function (e) {
+                        $('#blah').attr('src', e.target.result);
+                    }
+                    
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        </script>
     </body>
 </html>
