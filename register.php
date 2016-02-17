@@ -148,6 +148,29 @@
                 pointer-events: none;
             }
 
+            #avatar-container {
+                background-color:#424242;
+            }
+
+            #avatar img {
+                width: 100%;
+                height: 100%;
+
+            }
+
+            #avatar{
+                overflow: hidden;
+                border-radius: 50%;
+                border: 3.5px solid rgba(255, 255, 255, 0.35);
+                width: 150px;
+                height: 150px;
+                background-size: cover; 
+                z-index: 2;
+                text-align: center;
+                cursor: pointer;
+                margin:auto auto;
+                @apply(--shadow-elevation-4dp);
+            }
         </style>
 
     </head>
@@ -195,7 +218,13 @@
                 <div class="centered" style="margin-top:24px">
                     <div class="vertical-section" style="padding:0;">
                         <div class="title" style="padding:24px">About You</div>
-                        <form  style="padding:24px;" is="iron-form" id="formPost" action="upload.php" method="post" enctype="multipart/form-data">
+                        <div class="title" style="padding:24px; background-image:url('img/bg1.jpg'); background-size:cover">
+                            <div id="avatar" onclick="chooseImage()">
+                                <img id="preview" src="img/default.jpg" >
+                            </div>
+                        </div>
+                        <form  style="padding:12px 24px" is="iron-form" id="formPost" action="upload.php" method="post" enctype="multipart/form-data">
+                            <input value="img/default.jpg" accept=".jpg,.jpeg" type="file" name="fileToUpload" id="fileToUpload" style="visibility:hidden;">
                             <paper-input required name="name" label="Name" type="text"  auto-validate pattern="[a-zA-Z]*" error-message="Letters only!"></paper-input>
                             <paper-input required name="surname" label="Surname" type="text"  auto-validate pattern="[a-zA-Z]*" error-message="Letters only!"></paper-input>
                             <gold-email-input required auto-validate error-message="Please enter a valid email!" label="Email contact"></gold-email-input>
@@ -217,7 +246,6 @@
                                             }
 
                                             mysqli_close($conn);
-
                                         ?>
                                   </paper-listbox>
                             </paper-dropdown-menu>
@@ -226,9 +254,6 @@
                             <paper-input required name="username" label="Username" type="text"></paper-input>
                             <paper-input required name="password" label="Password" type="password"></paper-input>
                             <paper-input required name="repeat-password" label="Repeat Password" type="password"></paper-input>
-                            <br>
-                            <input type="file" name="fileToUpload" id="fileToUpload">
-                            <img id="blah" src="#" alt="your image" />
                             <paper-textarea name="description" label="Description" type="text" char-counter maxlength="300"></paper-textarea>
                             <br><br>
                             <div class="submit-button-container">
@@ -291,9 +316,14 @@
                 xhttp.send();   
             }
 
+            function chooseImage() {
+                document.getElementById('fileToUpload').click();
+                console.log("Choosed!");
+            }
+
             function submitForm(){
                 document.getElementById('SubmitButton').click();
-                console.log("Submitted!")
+                console.log("Submitted!");
             }
 
             $("#fileToUpload").change(function(){
@@ -305,7 +335,8 @@
                     var reader = new FileReader();
                     
                     reader.onload = function (e) {
-                        $('#blah').attr('src', e.target.result);
+                        $('#preview').attr('src', e.target.result);
+                        $('#avatar').attr('style', "background-image:url("+e.target.result+")");
                     }
                     
                     reader.readAsDataURL(input.files[0]);
