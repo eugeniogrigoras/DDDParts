@@ -13,7 +13,7 @@
     echo "<br>";
     if ($_FILES['fileToUpload']['size'] == 0 || $_FILES['fileToUpload']['error'] != 0) {
         echo "Error!";
-        // Prova creazione cartella
+        // Prova creazione cartella la cartella va creata in tutti i casi, l'ho messa qui nell'errore solo per prova
         if (!file_exists('users/3-Nome-Cognome')) {
             mkdir('users/3-Nome-Cognome', 0777, true);
         } else {
