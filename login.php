@@ -1,6 +1,6 @@
 <?php require 'head.php';?>
 
-<title>Register</title>
+<title>Login</title>
 
 <style is="custom-style">
 

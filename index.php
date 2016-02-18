@@ -1,15 +1,15 @@
 <?php require 'head.php';?>
 
-<title>Register</title>
+<title>DDParts</title>
 
 <style is="custom-style"></style>
 
 <?php require 'navbar.php';?>
 
-<div class="corpo-sito"></div>
+<!--<div class="corpo-sito"></div>-->
 
 <?php require 'footer.php';?>
 
-<script></script>
+<!--<script></script>-->
 
 <?php require 'close.php';?>
