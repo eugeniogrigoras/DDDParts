@@ -7,6 +7,7 @@
 <?php require 'navbar.php';?>
 
 <!--<div class="corpo-sito"></div>-->
+<sample-content size="100"></sample-content>
 
 <?php require 'footer.php';?>
 
