@@ -92,9 +92,9 @@
             <input type="text" name="comunehidden" value="" id="comunehidden" style="display:none">
             <div id="province"></div>
             <div id="comune"></div>
-            <paper-input required name="password" label="Password" type="password"></paper-input>
-            <paper-input required name="repeat_password" label="Repeat Password" type="password"></paper-input>
-            <paper-textarea name="description" label="Description" type="text" char-counter maxlength="300"></paper-textarea>
+            <paper-input required id="passwordId" name="password" label="Password" type="password" onchange="validatePassword()" auto-validate required pattern=".{1,32}" error-message="1 caratteri almeno"></paper-input>
+            <paper-input required id="reenterPasswordId" name="repeat_password" label="Repeat Password" type="password" onchange="validatePassword()" auto-validate required pattern=".{1,32}"></paper-input>
+            <paper-textarea name="description" label="Description" type="text" char-counter maxlength="300" required></paper-textarea>
             <input type="text" name="descriptionhidden" value="" id="descriptionhidden" style="display:none">
             <br><br>
             <paper-button onclick="submitForm()">Submit</paper-button>
@@ -172,6 +172,22 @@
             
             reader.readAsDataURL(input.files[0]);
         }
+    }
+
+    function validatePassword() {
+    var passwordInput = document.getElementById('passwordId');
+    var reenterPasswordInput = document.getElementById('reenterPasswordId');
+    var pass2 = reenterPasswordInput.value;
+    var pass1 = passwordInput.value;
+    alert(pass1);
+    alert(pass2);
+
+    if (pass1 != pass2) {
+        reenterPasswordInput.errorMessage()="Password is not the same!";
+    } else {
+        // empty string means no validation error
+        reenterPasswordInput.setCustomValidity('');
+            }
     }
 </script>
 
