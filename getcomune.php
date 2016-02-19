@@ -11,11 +11,11 @@
 	//eseguo la query
 	$record=$conn->query($comando);
 	echo "<paper-dropdown-menu label='City' style='width: 100%;'>";
-	echo "<paper-listbox id='citylist' class='dropdown-content' style='width:200px!important'>";
+	echo "<paper-listbox class='dropdown-content' style='width:200px!important'>";
 	//scorro i dati per trovare una corrispondenza
 	while ($riga=$record->fetch_assoc()) {
                                                 
-        echo "<paper-item id='";
+        echo "<paper-item onclick='selezionecomune(this.id)' id='";
         echo "$riga[id]";
         echo "'>";
         echo "$riga[nome]";
@@ -23,7 +23,6 @@
     }
     echo "</paper-listbox>";
     echo "</paper-dropdown-menu>";
-	
 
 	mysqli_close($conn);
 

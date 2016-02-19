@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.7
+-- version 4.4.14
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Feb 12, 2016 alle 10:14
--- Versione del server: 5.1.71-community-log
--- PHP Version: 5.3.10
+-- Host: 127.0.0.1
+-- Creato il: Feb 19, 2016 alle 19:11
+-- Versione del server: 5.6.26
+-- Versione PHP: 5.6.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `my_dddparts`
@@ -25,17 +25,64 @@ USE `my_dddparts`;
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `categorie_primarie`
+--
+
+CREATE TABLE IF NOT EXISTS `categorie_primarie` (
+  `ID` int(11) NOT NULL,
+  `NOME` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `categorie_secondarie`
+--
+
+CREATE TABLE IF NOT EXISTS `categorie_secondarie` (
+  `ID` int(11) NOT NULL,
+  `NOME` varchar(30) DEFAULT NULL,
+  `FK_CATEGORIA_PRIMARIA` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `collezioni`
+--
+
+CREATE TABLE IF NOT EXISTS `collezioni` (
+  `ID` int(11) NOT NULL,
+  `TITOLO` varchar(30) DEFAULT NULL,
+  `DATA_UPDATE` date DEFAULT NULL,
+  `FK_UTENTE` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `collezioni_composte_da_progetti`
+--
+
+CREATE TABLE IF NOT EXISTS `collezioni_composte_da_progetti` (
+  `ID` int(11) NOT NULL,
+  `FK_COLLEZIONE` int(11) DEFAULT NULL,
+  `FK_PROGETTO` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `comuni`
 --
 
 CREATE TABLE IF NOT EXISTS `comuni` (
-  `id` int(5) NOT NULL AUTO_INCREMENT,
+  `id` int(5) NOT NULL,
   `nome` text NOT NULL,
   `idprovincia` int(4) NOT NULL DEFAULT '0',
   `idregione` int(4) NOT NULL DEFAULT '0',
-  `catasto` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8085 ;
+  `catasto` text NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8085 DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `comuni`
@@ -8133,16 +8180,69 @@ INSERT INTO `comuni` (`id`, `nome`, `idprovincia`, `idregione`, `catasto`) VALUE
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `immagini`
+--
+
+CREATE TABLE IF NOT EXISTS `immagini` (
+  `ID` int(11) NOT NULL,
+  `NOME` varchar(30) DEFAULT NULL,
+  `FK_PROGETTO` int(11) DEFAULT NULL,
+  `DESCRIZIONE` varchar(300) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `parti_3d`
+--
+
+CREATE TABLE IF NOT EXISTS `parti_3d` (
+  `ID` int(11) NOT NULL,
+  `NOME` varchar(30) DEFAULT NULL,
+  `LINK` varchar(100) DEFAULT NULL,
+  `FK_PROGETTO` int(11) DEFAULT NULL,
+  `DESCRIZIONE` varchar(300) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `progetti`
+--
+
+CREATE TABLE IF NOT EXISTS `progetti` (
+  `ID` int(11) NOT NULL,
+  `NOME` varchar(30) DEFAULT NULL,
+  `LINK` varchar(100) DEFAULT NULL,
+  `DESCRIZIONE` varchar(300) DEFAULT NULL,
+  `FK_UTENTE` int(11) DEFAULT NULL,
+  `FK_CATEGORIA_SECONDARIA` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `progetti_hanno_tag`
+--
+
+CREATE TABLE IF NOT EXISTS `progetti_hanno_tag` (
+  `ID` int(11) NOT NULL,
+  `FK_PROGETTO` int(11) DEFAULT NULL,
+  `FK_TAG` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `province`
 --
 
 CREATE TABLE IF NOT EXISTS `province` (
-  `idprovincia` int(4) NOT NULL AUTO_INCREMENT,
+  `idprovincia` int(4) NOT NULL,
   `nomeprovincia` varchar(20) NOT NULL DEFAULT '',
   `idregione` int(4) NOT NULL DEFAULT '0',
-  `siglaprovincia` char(2) NOT NULL DEFAULT '',
-  PRIMARY KEY (`idprovincia`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=109 ;
+  `siglaprovincia` char(2) NOT NULL DEFAULT ''
+) ENGINE=MyISAM AUTO_INCREMENT=109 DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `province`
@@ -8207,7 +8307,7 @@ INSERT INTO `province` (`idprovincia`, `nomeprovincia`, `idregione`, `siglaprovi
 (56, 'Siena', 12, 'SI'),
 (57, 'Bologna', 14, 'BO'),
 (58, 'Ferrara', 14, 'FE'),
-(59, 'Forlì Cesena', 14, 'FC'),
+(59, 'Forli Cesena', 14, 'FC'),
 (60, 'Modena', 14, 'MO'),
 (61, 'Parma', 14, 'PR'),
 (62, 'Piacenza', 14, 'PC'),
@@ -8264,10 +8364,9 @@ INSERT INTO `province` (`idprovincia`, `nomeprovincia`, `idregione`, `siglaprovi
 --
 
 CREATE TABLE IF NOT EXISTS `regioni` (
-  `idregione` int(4) NOT NULL AUTO_INCREMENT,
-  `nomeregione` varchar(50) NOT NULL DEFAULT '',
-  PRIMARY KEY (`idregione`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+  `idregione` int(4) NOT NULL,
+  `nomeregione` varchar(50) NOT NULL DEFAULT ''
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `regioni`
@@ -8294,6 +8393,422 @@ INSERT INTO `regioni` (`idregione`, `nomeregione`) VALUES
 (18, 'Liguria'),
 (19, 'Lombardia'),
 (20, 'Umbria');
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `tag`
+--
+
+CREATE TABLE IF NOT EXISTS `tag` (
+  `ID` int(11) NOT NULL,
+  `NOME` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `utenti`
+--
+
+CREATE TABLE IF NOT EXISTS `utenti` (
+  `ID` int(11) NOT NULL,
+  `NOME` varchar(30) DEFAULT NULL,
+  `COGNOME` varchar(30) DEFAULT NULL,
+  `EMAIL` varchar(30) DEFAULT NULL,
+  `DESCRIZIONE` varchar(300) DEFAULT NULL,
+  `PASSWORD` varchar(30) DEFAULT NULL,
+  `IMMAGINE_PROFILO` varchar(100) DEFAULT NULL,
+  `CODICE_CONFERMA` varchar(10) DEFAULT NULL,
+  `ACCETTATO` tinyint(1) DEFAULT NULL,
+  `FK_COMUNE` int(11) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `utenti`
+--
+
+INSERT INTO `utenti` (`ID`, `NOME`, `COGNOME`, `EMAIL`, `DESCRIZIONE`, `PASSWORD`, `IMMAGINE_PROFILO`, `CODICE_CONFERMA`, `ACCETTATO`, `FK_COMUNE`) VALUES
+(34, 'Eugeniu', 'Grigoras', 'eugeniogrigoras@gmail.com', 'Ciao, mi chiamo Eugeniu!', '23dodici1996', 'users/Eugeniu-Grigoras-eugeniogrigoras@gmail.com/profile.jpg', '2aHTAnUL0d', 0, 1614);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `utenti_commentano_progetti`
+--
+
+CREATE TABLE IF NOT EXISTS `utenti_commentano_progetti` (
+  `ID` int(11) NOT NULL,
+  `FK_UTENTE` int(11) DEFAULT NULL,
+  `FK_PROGETTO` int(11) DEFAULT NULL,
+  `DATA` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `utenti_like_collezioni`
+--
+
+CREATE TABLE IF NOT EXISTS `utenti_like_collezioni` (
+  `ID` int(11) NOT NULL,
+  `FK_UTENTE` int(11) DEFAULT NULL,
+  `FK_COLLEZIONE` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `utenti_like_progetti`
+--
+
+CREATE TABLE IF NOT EXISTS `utenti_like_progetti` (
+  `ID` int(11) NOT NULL,
+  `FK_UTENTE` int(11) DEFAULT NULL,
+  `FK_PROGETTO` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `utenti_seguono_collezioni`
+--
+
+CREATE TABLE IF NOT EXISTS `utenti_seguono_collezioni` (
+  `ID` int(11) NOT NULL,
+  `FK_COLLEZIONE` int(11) DEFAULT NULL,
+  `FK_UTENTE` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `utenti_seguono_utenti`
+--
+
+CREATE TABLE IF NOT EXISTS `utenti_seguono_utenti` (
+  `ID` int(11) NOT NULL,
+  `FK_UTENTE` int(11) DEFAULT NULL,
+  `FK_UTENTE_SEGUITO` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indici per le tabelle scaricate
+--
+
+--
+-- Indici per le tabelle `categorie_primarie`
+--
+ALTER TABLE `categorie_primarie`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indici per le tabelle `categorie_secondarie`
+--
+ALTER TABLE `categorie_secondarie`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FK_CATEGORIA_PRIMARIA` (`FK_CATEGORIA_PRIMARIA`);
+
+--
+-- Indici per le tabelle `collezioni`
+--
+ALTER TABLE `collezioni`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FK_UTENTE` (`FK_UTENTE`);
+
+--
+-- Indici per le tabelle `collezioni_composte_da_progetti`
+--
+ALTER TABLE `collezioni_composte_da_progetti`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FK_COLLEZIONE` (`FK_COLLEZIONE`),
+  ADD KEY `FK_PROGETTO` (`FK_PROGETTO`);
+
+--
+-- Indici per le tabelle `comuni`
+--
+ALTER TABLE `comuni`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `immagini`
+--
+ALTER TABLE `immagini`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FK_PROGETTO` (`FK_PROGETTO`);
+
+--
+-- Indici per le tabelle `parti_3d`
+--
+ALTER TABLE `parti_3d`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FK_PROGETTO` (`FK_PROGETTO`);
+
+--
+-- Indici per le tabelle `progetti`
+--
+ALTER TABLE `progetti`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FK_UTENTE` (`FK_UTENTE`),
+  ADD KEY `FK_CATEGORIA_SECONDARIA` (`FK_CATEGORIA_SECONDARIA`);
+
+--
+-- Indici per le tabelle `progetti_hanno_tag`
+--
+ALTER TABLE `progetti_hanno_tag`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FK_PROGETTO` (`FK_PROGETTO`),
+  ADD KEY `FK_TAG` (`FK_TAG`);
+
+--
+-- Indici per le tabelle `province`
+--
+ALTER TABLE `province`
+  ADD PRIMARY KEY (`idprovincia`);
+
+--
+-- Indici per le tabelle `regioni`
+--
+ALTER TABLE `regioni`
+  ADD PRIMARY KEY (`idregione`);
+
+--
+-- Indici per le tabelle `tag`
+--
+ALTER TABLE `tag`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indici per le tabelle `utenti`
+--
+ALTER TABLE `utenti`
+  ADD PRIMARY KEY (`ID`),
+  ADD UNIQUE KEY `EMAIL` (`EMAIL`),
+  ADD KEY `FK_COMUNE` (`FK_COMUNE`);
+
+--
+-- Indici per le tabelle `utenti_commentano_progetti`
+--
+ALTER TABLE `utenti_commentano_progetti`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FK_UTENTE` (`FK_UTENTE`),
+  ADD KEY `FK_PROGETTO` (`FK_PROGETTO`);
+
+--
+-- Indici per le tabelle `utenti_like_collezioni`
+--
+ALTER TABLE `utenti_like_collezioni`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FK_UTENTE` (`FK_UTENTE`),
+  ADD KEY `FK_COLLEZIONE` (`FK_COLLEZIONE`);
+
+--
+-- Indici per le tabelle `utenti_like_progetti`
+--
+ALTER TABLE `utenti_like_progetti`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FK_UTENTE` (`FK_UTENTE`),
+  ADD KEY `FK_PROGETTO` (`FK_PROGETTO`);
+
+--
+-- Indici per le tabelle `utenti_seguono_collezioni`
+--
+ALTER TABLE `utenti_seguono_collezioni`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FK_UTENTE` (`FK_UTENTE`),
+  ADD KEY `FK_COLLEZIONE` (`FK_COLLEZIONE`);
+
+--
+-- Indici per le tabelle `utenti_seguono_utenti`
+--
+ALTER TABLE `utenti_seguono_utenti`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `FK_UTENTE` (`FK_UTENTE`),
+  ADD KEY `FK_UTENTE_SEGUITO` (`FK_UTENTE_SEGUITO`);
+
+--
+-- AUTO_INCREMENT per le tabelle scaricate
+--
+
+--
+-- AUTO_INCREMENT per la tabella `categorie_primarie`
+--
+ALTER TABLE `categorie_primarie`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `categorie_secondarie`
+--
+ALTER TABLE `categorie_secondarie`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `collezioni`
+--
+ALTER TABLE `collezioni`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `collezioni_composte_da_progetti`
+--
+ALTER TABLE `collezioni_composte_da_progetti`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `comuni`
+--
+ALTER TABLE `comuni`
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8085;
+--
+-- AUTO_INCREMENT per la tabella `immagini`
+--
+ALTER TABLE `immagini`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `parti_3d`
+--
+ALTER TABLE `parti_3d`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `progetti`
+--
+ALTER TABLE `progetti`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `progetti_hanno_tag`
+--
+ALTER TABLE `progetti_hanno_tag`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `province`
+--
+ALTER TABLE `province`
+  MODIFY `idprovincia` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=109;
+--
+-- AUTO_INCREMENT per la tabella `regioni`
+--
+ALTER TABLE `regioni`
+  MODIFY `idregione` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
+--
+-- AUTO_INCREMENT per la tabella `tag`
+--
+ALTER TABLE `tag`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `utenti`
+--
+ALTER TABLE `utenti`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=36;
+--
+-- AUTO_INCREMENT per la tabella `utenti_commentano_progetti`
+--
+ALTER TABLE `utenti_commentano_progetti`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `utenti_like_collezioni`
+--
+ALTER TABLE `utenti_like_collezioni`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `utenti_like_progetti`
+--
+ALTER TABLE `utenti_like_progetti`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `utenti_seguono_collezioni`
+--
+ALTER TABLE `utenti_seguono_collezioni`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `utenti_seguono_utenti`
+--
+ALTER TABLE `utenti_seguono_utenti`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Limiti per le tabelle scaricate
+--
+
+--
+-- Limiti per la tabella `categorie_secondarie`
+--
+ALTER TABLE `categorie_secondarie`
+  ADD CONSTRAINT `categorie_secondarie_ibfk_1` FOREIGN KEY (`FK_CATEGORIA_PRIMARIA`) REFERENCES `categorie_primarie` (`ID`);
+
+--
+-- Limiti per la tabella `collezioni`
+--
+ALTER TABLE `collezioni`
+  ADD CONSTRAINT `collezioni_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`);
+
+--
+-- Limiti per la tabella `collezioni_composte_da_progetti`
+--
+ALTER TABLE `collezioni_composte_da_progetti`
+  ADD CONSTRAINT `collezioni_composte_da_progetti_ibfk_1` FOREIGN KEY (`FK_COLLEZIONE`) REFERENCES `collezioni` (`ID`),
+  ADD CONSTRAINT `collezioni_composte_da_progetti_ibfk_2` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`);
+
+--
+-- Limiti per la tabella `immagini`
+--
+ALTER TABLE `immagini`
+  ADD CONSTRAINT `immagini_ibfk_1` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`);
+
+--
+-- Limiti per la tabella `parti_3d`
+--
+ALTER TABLE `parti_3d`
+  ADD CONSTRAINT `parti_3d_ibfk_1` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`);
+
+--
+-- Limiti per la tabella `progetti`
+--
+ALTER TABLE `progetti`
+  ADD CONSTRAINT `progetti_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`),
+  ADD CONSTRAINT `progetti_ibfk_2` FOREIGN KEY (`FK_CATEGORIA_SECONDARIA`) REFERENCES `categorie_secondarie` (`ID`);
+
+--
+-- Limiti per la tabella `progetti_hanno_tag`
+--
+ALTER TABLE `progetti_hanno_tag`
+  ADD CONSTRAINT `progetti_hanno_tag_ibfk_1` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`),
+  ADD CONSTRAINT `progetti_hanno_tag_ibfk_2` FOREIGN KEY (`FK_TAG`) REFERENCES `tag` (`ID`);
+
+--
+-- Limiti per la tabella `utenti`
+--
+ALTER TABLE `utenti`
+  ADD CONSTRAINT `utenti_ibfk_1` FOREIGN KEY (`FK_COMUNE`) REFERENCES `comuni` (`id`);
+
+--
+-- Limiti per la tabella `utenti_commentano_progetti`
+--
+ALTER TABLE `utenti_commentano_progetti`
+  ADD CONSTRAINT `utenti_commentano_progetti_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`),
+  ADD CONSTRAINT `utenti_commentano_progetti_ibfk_2` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`);
+
+--
+-- Limiti per la tabella `utenti_like_collezioni`
+--
+ALTER TABLE `utenti_like_collezioni`
+  ADD CONSTRAINT `utenti_like_collezioni_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`),
+  ADD CONSTRAINT `utenti_like_collezioni_ibfk_2` FOREIGN KEY (`FK_COLLEZIONE`) REFERENCES `collezioni` (`ID`);
+
+--
+-- Limiti per la tabella `utenti_like_progetti`
+--
+ALTER TABLE `utenti_like_progetti`
+  ADD CONSTRAINT `utenti_like_progetti_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`),
+  ADD CONSTRAINT `utenti_like_progetti_ibfk_2` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`);
+
+--
+-- Limiti per la tabella `utenti_seguono_collezioni`
+--
+ALTER TABLE `utenti_seguono_collezioni`
+  ADD CONSTRAINT `utenti_seguono_collezioni_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`),
+  ADD CONSTRAINT `utenti_seguono_collezioni_ibfk_2` FOREIGN KEY (`FK_COLLEZIONE`) REFERENCES `collezioni` (`ID`);
+
+--
+-- Limiti per la tabella `utenti_seguono_utenti`
+--
+ALTER TABLE `utenti_seguono_utenti`
+  ADD CONSTRAINT `utenti_seguono_utenti_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`),
+  ADD CONSTRAINT `utenti_seguono_utenti_ibfk_2` FOREIGN KEY (`FK_UTENTE_SEGUITO`) REFERENCES `utenti` (`ID`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

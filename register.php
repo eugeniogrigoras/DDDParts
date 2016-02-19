@@ -3,7 +3,7 @@
 <title>Register</title>
 
 <style is="custom-style">
-    .submit-button-container paper-button {
+    paper-button {
         background-color: var(--paper-red-400);
         color:white;
         margin:0!important;
@@ -67,7 +67,7 @@
             <input value="img/default.jpg" accept=".jpg,.jpeg" type="file" name="fileToUpload" id="fileToUpload" style="display:none;visibility:hidden;">
             <paper-input required name="name" label="Name" type="text"  auto-validate pattern="[a-zA-Z]*" error-message="Letters only!"></paper-input>
             <paper-input required name="surname" label="Surname" type="text"  auto-validate pattern="[a-zA-Z]*" error-message="Letters only!"></paper-input>
-            <gold-email-input required auto-validate error-message="Please enter a valid email!" label="Email contact"></gold-email-input>
+            <gold-email-input name="email" required auto-validate error-message="Please enter a valid email!" label="Email contact"></gold-email-input>
             <paper-dropdown-menu label="Region" style="width: 100%;" required>
                 <paper-listbox class="dropdown-content" style="width:200px!important">
                     <?php
@@ -89,17 +89,17 @@
                     ?>
                 </paper-listbox>
             </paper-dropdown-menu>
+            <input type="text" name="comunehidden" value="" id="comunehidden" style="display:none">
             <div id="province"></div>
             <div id="comune"></div>
-            <paper-input required name="username" label="Username" type="text"></paper-input>
             <paper-input required name="password" label="Password" type="password"></paper-input>
-            <paper-input required name="repeat-password" label="Repeat Password" type="password"></paper-input>
+            <paper-input required name="repeat_password" label="Repeat Password" type="password"></paper-input>
             <paper-textarea name="description" label="Description" type="text" char-counter maxlength="300"></paper-textarea>
+            <input type="text" name="descriptionhidden" value="" id="descriptionhidden" style="display:none">
             <br><br>
-            <div class="submit-button-container">
-                <paper-button onclick="submitForm()">Submit</paper-button>
-            </div>
-            <button type="submit" id="SubmitButton" name="submit" style="visibility:hidden"></button>
+            <paper-button onclick="submitForm()">Submit</paper-button>
+            <button type="submit" id="SubmitButton" name="submit" style="display:none"></button>
+            
         </form>
     </div>
 </div>
@@ -108,6 +108,13 @@
 <?php require 'footer.php';?>
 
 <script>
+    $( "paper-textarea[name=description]" ).change(function() {
+        document.getElementById('descriptionhidden').value=this.value;
+    });
+    function selezionecomune(str) {
+        document.getElementById('comunehidden').value=str; 
+    }
+
     function regionselect(str) {
         document.getElementById("comune").innerHTML = "";
         var xhttp;
