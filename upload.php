@@ -1,4 +1,8 @@
 <?php
+    // Pear Mail Library
+    require_once "Mail.php";
+
+
     $name = $_REQUEST['name'];
     $surname = $_REQUEST['surname'];
     $email = $_REQUEST['email'];
@@ -19,7 +23,7 @@
         die("Connection failed: " . $conn->connect_error);
     } else {
         $nomeCartella = "users/$name-$surname-$email";
-        $comando="insert ignore into utenti  (NOME, COGNOME, EMAIL, DESCRIZIONE, PASSWORD, IMMAGINE_PROFILO, CODICE_CONFERMA, ACCETTATO, FK_COMUNE) VALUES ('$name', '$surname', '$email', '$description', '$password', '$nomeCartella/profile.jpg', '$randomString', 'FALSE', '$comune')";
+        $comando="insert ignore into utenti  (NOME, COGNOME, EMAIL, DESCRIZIONE, PASSWORD, PERCORSO, CODICE_CONFERMA, ACCETTATO, FK_COMUNE) VALUES ('$name', '$surname', '$email', '$description', '$password', '$nomeCartella', '$randomString', 'FALSE', '$comune')";
 
         if ($conn->query($comando) === TRUE) {
             $last_id = $conn->insert_id;
@@ -29,9 +33,32 @@
             } else {
                 echo "New record created successfully. Last inserted ID is: " . $last_id;
 
-                if (!file_exists($nomeCartella)) {
-                    mkdir($nomeCartella, 0777, true);
-                    copy('img/default.jpg', $nomeCartella."/profile.jpg"); 
+                $from = '<info.dddparts@gmail.com>';
+                //$to = '<'.$email.'>';
+                $to ='<eugeniogrigoras@gmail.com>';
+                $subject = 'Hi'.$name.' '.$surname.'!';
+                $body = "Conferma il tuo account: http://localhost/DDDParts/activate.php?codice=$randomString&id=$last_id";
+
+                $headers = array(
+                    'From' => $from,
+                    'To' => $to,
+                    'Subject' => $subject
+                );
+
+                $smtp = Mail::factory('smtp', array(
+                        'host' => 'ssl://smtp.gmail.com',
+                        'port' => '465',
+                        'auth' => true,
+                        'username' => 'info.dddparts@gmail.com',
+                        'password' => '23dodici1996'
+                    ));
+
+                $mail = $smtp->send($to, $headers, $body);
+
+                if (PEAR::isError($mail)) {
+                    echo('<p>' . $mail->getMessage() . '</p>');
+                } else {
+                    echo('<p>Message successfully sent!</p>');
                 }
 
                 // Controllo immagine

@@ -10,7 +10,7 @@
 
 	//eseguo la query
 	$record=$conn->query($comando);
-	echo "<paper-dropdown-menu label='Province' style='width: 100%;'>";
+	echo "<paper-dropdown-menu error-message='Select one!' id='province' label='Province' style='width: 100%;'>";
 	echo "<paper-listbox class='dropdown-content' style='width:200px!important'>";
 	//scorro i dati per trovare una corrispondenza
 	while ($riga=$record->fetch_assoc()) {

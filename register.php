@@ -68,7 +68,7 @@
             <paper-input required name="name" label="Name" type="text"  auto-validate pattern="[a-zA-Z]*" error-message="Letters only!"></paper-input>
             <paper-input required name="surname" label="Surname" type="text"  auto-validate pattern="[a-zA-Z]*" error-message="Letters only!"></paper-input>
             <gold-email-input name="email" required auto-validate error-message="Please enter a valid email!" label="Email contact"></gold-email-input>
-            <paper-dropdown-menu label="Region" style="width: 100%;" required>
+            <paper-dropdown-menu id="region" error-message="Select one!" label="Region" style="width: 100%;" required>
                 <paper-listbox class="dropdown-content" style="width:200px!important">
                     <?php
                         $conn= new mysqli("localhost","root","",'my_dddparts'); 
@@ -90,14 +90,14 @@
                 </paper-listbox>
             </paper-dropdown-menu>
             <input type="text" name="comunehidden" value="" id="comunehidden" style="display:none">
-            <div id="province"></div>
-            <div id="comune"></div>
-            <paper-input required name="password" label="Password" type="password"></paper-input>
-            <paper-input required name="repeat_password" label="Repeat Password" type="password"></paper-input>
-            <paper-textarea name="description" label="Description" type="text" char-counter maxlength="300"></paper-textarea>
+            <div id="provinceDiv"></div>
+            <div id="comuneDiv"></div>
+            <paper-input required id="password" error-message="Insert password!" name="password" label="Password" type="password"></paper-input>
+            <paper-input required id="repeat_password" error-message="Password is not the same!" name="repeat_password" label="Repeat Password" type="password"></paper-input>
+            <paper-textarea id="description" name="description" label="Description" type="text" char-counter maxlength="300"></paper-textarea>
             <input type="text" name="descriptionhidden" value="" id="descriptionhidden" style="display:none">
             <br><br>
-            <paper-button onclick="submitForm()">Submit</paper-button>
+            <paper-button id="paper-button" onclick="submitForm()">Submit</paper-button>
             <button type="submit" id="SubmitButton" name="submit" style="display:none"></button>
             
         </form>
@@ -108,39 +108,62 @@
 <?php require 'footer.php';?>
 
 <script>
-    $( "paper-textarea[name=description]" ).change(function() {
+    var regionControl = false;
+    var cityControl = false;
+
+    passwordField=document.getElementById('password');
+    repeatPasswordField=document.getElementById('repeat_password');
+
+    $( "#description" ).change(function() {
         document.getElementById('descriptionhidden').value=this.value;
     });
+
+    $( "#password" ).change(function() {
+        controlloPassword();
+    });
+
+    $( "#repeat_password" ).change(function() {
+        controlloPassword();
+    });
+
     function selezionecomune(str) {
+        cityControl=true;
+        document.getElementById('city').invalid=false;
         document.getElementById('comunehidden').value=str; 
     }
 
     function regionselect(str) {
-        document.getElementById("comune").innerHTML = "";
+        provinceControl=false;
+        cityControl=false;
+        regionControl=true;
+        document.getElementById('region').invalid=false;
+        document.getElementById("comuneDiv").innerHTML = "";
         var xhttp;
         if (str.length == 0) { 
-            document.getElementById("province").innerHTML = "";
+            document.getElementById("provinceDiv").innerHTML = "";
             return;
         }
         xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-                document.getElementById("province").innerHTML = xhttp.responseText;
+                document.getElementById("provinceDiv").innerHTML = xhttp.responseText;
             }
         };
         xhttp.open("GET", "getprovince.php?idregione="+str, true);
         xhttp.send();   
     }
     function provinceselect(str) {
+        provinceControl=true;
+        document.getElementById('province').invalid=false;
         var xhttp;
         if (str.length == 0) { 
-            document.getElementById("comune").innerHTML = "";
+            document.getElementById("comuneDiv").innerHTML = "";
             return;
         }
         xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-                document.getElementById("comune").innerHTML = xhttp.responseText;
+                document.getElementById("comuneDiv").innerHTML = xhttp.responseText;
             }
         };
         xhttp.open("GET", "getcomune.php?idprovincia="+str, true);
@@ -152,9 +175,52 @@
         console.log("Choosed!");
     }
 
+    function controlloPassword() {
+        if ((passwordField.value.length==0) && (repeatPasswordField.value.length==0)) {
+            passwordField.invalid=true;
+            repeatPasswordField.invalid=false;
+            return false;
+        }
+        if ((passwordField.value.length!=0) && (repeatPasswordField.value.length==0)) {
+            passwordField.invalid=false;
+            repeatPasswordField.invalid=true;
+            return false;
+        }
+        if ((passwordField.value.length==0) && (repeatPasswordField.value.length!=0)) {
+            passwordField.invalid=true;
+            repeatPasswordField.invalid=true;
+            return false;
+        }
+        if ((passwordField.value.length!=0) && (repeatPasswordField.value.length!=0)) {
+            if (passwordField.value==repeatPasswordField.value) {
+                passwordField.invalid=false;
+                repeatPasswordField.invalid=false;
+                return true;
+            } else {
+                passwordField.invalid=false;
+                repeatPasswordField.invalid=true;
+                return false
+            } 
+        }
+    }
+
     function submitForm(){
-        document.getElementById('SubmitButton').click();
-        console.log("Submitted!");
+        if (!regionControl) {
+            document.getElementById('region').invalid=true;
+        } else {
+            if (!provinceControl) {
+                document.getElementById('province').invalid=true;
+            } else {
+                if (!cityControl) {
+                    document.getElementById('city').invalid=true;
+                } else {
+                    if (controlloPassword()) {
+                        document.getElementById('SubmitButton').click();
+                        console.log("Submitted!");
+                    }
+                }
+            }
+        }
     }
 
     $("#fileToUpload").change(function(){
