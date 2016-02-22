@@ -31,6 +31,11 @@
             } else {
                 echo "New record created successfully. Last inserted ID is: " . $last_id;
 
+                if (!file_exists($nomeCartella)) {
+                    mkdir($nomeCartella, 0777, true);
+                    copy('img/default.jpg', $nomeCartella."/profile.jpg"); 
+                }
+
                 $mail = new PHPMailer;
 
                 //$mail->SMTPDebug = 3;                               // Enable verbose debug output
