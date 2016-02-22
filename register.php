@@ -95,16 +95,6 @@
             <paper-input required id="password" error-message="Insert password!" name="password" label="Password" type="password"></paper-input>
             <paper-input required id="repeat_password" error-message="Password is not the same!" name="repeat_password" label="Repeat Password" type="password"></paper-input>
             <paper-textarea id="description" name="description" label="Description" type="text" char-counter maxlength="300"></paper-textarea>
-<<<<<<< Updated upstream
-=======
-=======
-            <div id="province"></div>
-            <div id="comune"></div>
-            <paper-input required id="passwordId" name="password" label="Password" type="password"></paper-input>
-            <paper-input required id="reenterPasswordId" name="repeat_password" label="Repeat Password" type="password"></paper-input>
-            <paper-textarea name="description" label="Description" type="text" char-counter maxlength="300" required></paper-textarea>
->>>>>>> origin/master
->>>>>>> Stashed changes
             <input type="text" name="descriptionhidden" value="" id="descriptionhidden" style="display:none">
             <br><br>
             <paper-button id="paper-button" onclick="submitForm()">Submit</paper-button>
@@ -249,10 +239,6 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 </script>
 
 <?php require 'close.php';?>
