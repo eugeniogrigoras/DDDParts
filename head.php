@@ -10,7 +10,7 @@
         <!-- Place favicon.ico in the root directory -->
 
         <!-- Polymer Elements -->
-        <link rel="import" href="bower_components/webcomponentsjs/webcomponents.js">
+        <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
         <link rel="import" href="bower_components/polymer/polymer.html">
         <link rel="import" href="bower_components/paper-scroll-header-panel/paper-scroll-header-panel.html">
         <link rel="import" href="bower_components/paper-header-panel/paper-header-panel.html">
