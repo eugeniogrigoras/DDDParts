@@ -96,6 +96,8 @@
             <paper-input required id="repeat_password" error-message="Password is not the same!" name="repeat_password" label="Repeat Password" type="password"></paper-input>
             <paper-textarea id="description" name="description" label="Description" type="text" char-counter maxlength="300"></paper-textarea>
             <input type="text" name="descriptionhidden" value="" id="descriptionhidden" style="display:none">
+            <br>
+            <paper-checkbox style="font-size: 10px;">I have read and agree to the Privacy Policy</paper-checkbox>
             <br><br>
             <paper-button id="paper-button" onclick="submitForm()">Submit</paper-button>
             <button type="submit" id="SubmitButton" name="submit" style="display:none"></button>
