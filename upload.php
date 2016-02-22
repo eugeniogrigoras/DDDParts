@@ -1,4 +1,6 @@
 <?php
+    require 'PHPMailer/PHPMailerAutoload.php';
+
     $name = $_REQUEST['name'];
     $surname = $_REQUEST['surname'];
     $email = $_REQUEST['email'];
@@ -28,21 +30,49 @@
                 echo "Email già registrata!";
             } else {
                 echo "New record created successfully. Last inserted ID is: " . $last_id;
-                
+
                 if (!file_exists($nomeCartella)) {
                     mkdir($nomeCartella, 0777, true);
                     copy('img/default.jpg', $nomeCartella."/profile.jpg"); 
-                } else {
-                	echo "Cartella già presente";
                 }
 
-                $to  = $email;
+
+                // LOCAL MAIL
+                $mail = new PHPMailer;
+
+                //$mail->SMTPDebug = 3;                               // Enable verbose debug output
+
+                $mail->isSMTP();                                      // Set mailer to use SMTP
+                $mail->Host = 'ssl://smtp.gmail.com;ssl://smtp.gmail.com';  // Specify main and backup SMTP servers
+                $mail->SMTPAuth = true;                               // Enable SMTP authentication
+                $mail->Username = 'info.dddparts@gmail.com';                 // SMTP username
+                $mail->Password = '23dodici1996';                           // SMTP password
+                $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+                $mail->Port = 465;                                    // TCP port to connect to
+
+                $mail->setFrom('info.dddparts@gmail.com', 'DDDParts');
+                $mail->addAddress($email, $name." ".$surname);     // Add a recipient             // Name is optional
+
+                $mail->Subject = 'Attivazione acount DDDParts!';
+                $mail->Body    = "Conferma il tuo account: http://localhost/DDDParts/activate.php?codice=$randomString&id=$last_id";
+
+                if(!$mail->send()) {
+                    echo 'Message could not be sent.';
+                    echo 'Mailer Error: ' . $mail->ErrorInfo;
+                } else {
+                    echo 'Message has been sent';
+                }
+                //FINE
+
+                // ALTERVISTA MAIL
+                /*$to  = $email;
                 $subject = "Registrazione effettuata con successo!";
                 $message = "Conferma il tuo account: http://dddparts.altervista.org/activate.php?codice=$randomString&id=$last_id";;
                 $headers = 'From: DDDParts' . "\r\n" .
-                		   'Reply-To: info.dddparts@gmail.com' . "\r\n" .
+                           'Reply-To: info.dddparts@gmail.com' . "\r\n" .
                            'X-Mailer: PHP/' . phpversion();
-                mail($to, $subject, $message, $headers);
+                mail($to, $subject, $message, $headers);*/
+                //FINE
 
                 
                 // Controllo immagine
@@ -119,4 +149,4 @@
     echo $description;
     echo "<br>";
     
-?>
+?>
