@@ -1,6 +1,6 @@
 <?php require 'head.php';?>
 
-<title>DDParts</title>
+<title>DDDParts</title>
 
 <style is="custom-style"></style>
 

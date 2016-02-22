@@ -1,7 +1,5 @@
 <?php
-    // Pear Mail Library
-    require_once "Mail.php";
-
+    require 'PHPMailer/PHPMailerAutoload.php';
 
     $name = $_REQUEST['name'];
     $surname = $_REQUEST['surname'];
@@ -33,34 +31,32 @@
             } else {
                 echo "New record created successfully. Last inserted ID is: " . $last_id;
 
-                $from = '<info.dddparts@gmail.com>';
-                //$to = '<'.$email.'>';
-                $to ='<eugeniogrigoras@gmail.com>';
-                $subject = 'Hi'.$name.' '.$surname.'!';
-                $body = "Conferma il tuo account: http://localhost/DDDParts/activate.php?codice=$randomString&id=$last_id";
+                $mail = new PHPMailer;
 
-                $headers = array(
-                    'From' => $from,
-                    'To' => $to,
-                    'Subject' => $subject
-                );
+                //$mail->SMTPDebug = 3;                               // Enable verbose debug output
 
-                $smtp = Mail::factory('smtp', array(
-                        'host' => 'ssl://smtp.gmail.com',
-                        'port' => '465',
-                        'auth' => true,
-                        'username' => 'info.dddparts@gmail.com',
-                        'password' => '23dodici1996'
-                    ));
+                $mail->isSMTP();                                      // Set mailer to use SMTP
+                $mail->Host = 'ssl://smtp.gmail.com;ssl://smtp.gmail.com';  // Specify main and backup SMTP servers
+                $mail->SMTPAuth = true;                               // Enable SMTP authentication
+                $mail->Username = 'info.dddparts@gmail.com';                 // SMTP username
+                $mail->Password = '23dodici1996';                           // SMTP password
+                $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+                $mail->Port = 465;                                    // TCP port to connect to
 
-                $mail = $smtp->send($to, $headers, $body);
+                $mail->setFrom('info.dddparts@gmail.com', 'DDDParts');
+                $mail->addAddress($email, $name." ".$surname);     // Add a recipient             // Name is optional
 
-                if (PEAR::isError($mail)) {
-                    echo('<p>' . $mail->getMessage() . '</p>');
+                $mail->Subject = 'Attivazione acount DDDParts!';
+                $mail->Body    = "Conferma il tuo account: http://localhost/DDDParts/activate.php?codice=$randomString&id=$last_id";
+
+                if(!$mail->send()) {
+                    echo 'Message could not be sent.';
+                    echo 'Mailer Error: ' . $mail->ErrorInfo;
                 } else {
-                    echo('<p>Message successfully sent!</p>');
+                    echo 'Message has been sent';
                 }
 
+                
                 // Controllo immagine
 
                 if ($_FILES['fileToUpload']['size'] == 0 || $_FILES['fileToUpload']['error'] != 0) {
