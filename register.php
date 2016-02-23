@@ -30,9 +30,6 @@
         opacity: var(--dark-divider-opacity);
         pointer-events: none;
     }
-    #avatar-container {
-        background-color:#424242;
-    }
     #avatar img {
         width: 100%;
         height: 100%;
@@ -53,12 +50,15 @@
 
     paper-checkbox.grey {
         @apply(--paper-font-caption);
-        color: var(--light-primary-color);
         --paper-checkbox-checked-color: var(--paper-grey-800);
         --paper-checkbox-checked-ink-color: var(--paper-grey-800);
         --paper-checkbox-unchecked-color: var(--light-primary-color);
         --paper-checkbox-unchecked-ink-color: var(--light-primary-color);
         --paper-checkbox-label-color: var(--paper-grey-800);
+    }
+
+    paper-checkbox.error {
+        --paper-checkbox-label-color: var(--light-accent-color);
     }
 </style>
 
@@ -107,7 +107,7 @@
             <paper-textarea id="description" name="description" label="Description" type="text" char-counter maxlength="300"></paper-textarea>
             <input type="text" name="descriptionhidden" value="" id="descriptionhidden" style="display:none">
             <br><br>
-            <paper-checkbox required class="grey">I have read and agree to the Privacy Policy</paper-checkbox>
+            <paper-checkbox id="privacy" class="grey">I have read and agree to the Privacy Policy</paper-checkbox>
             <br><br><br>
             <paper-button id="paper-button" onclick="submitForm()">Submit</paper-button>
             <button type="submit" id="SubmitButton" name="submit" style="display:none"></button>
@@ -122,6 +122,7 @@
 <script>
     var regionControl = false;
     var cityControl = false;
+    var privacyControl = false;
 
     passwordField=document.getElementById('password');
     repeatPasswordField=document.getElementById('repeat_password');
@@ -227,8 +228,10 @@
                     document.getElementById('city').invalid=true;
                 } else {
                     if (controlloPassword()) {
-                        document.getElementById('SubmitButton').click();
-                        console.log("Submitted!");
+                        if (privacyControl) {
+                            document.getElementById('SubmitButton').click();
+                            console.log("Submitted!"); 
+                        }
                     }
                 }
             }
@@ -237,6 +240,10 @@
 
     $("#fileToUpload").change(function(){
         readURL(this);
+    });
+
+    $("#privacy").change(function(){
+        privacyControl=this.checked;
     });
 
     function readURL(input) {

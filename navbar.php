@@ -12,8 +12,21 @@
                 <paper-toolbar class="drawer" onclick="location.href = 'index.php'">
                     <iron-image style="height:30%" sizing="contain" class="flex" src="img/dddparts-logo.png"></iron-image>
                 </paper-toolbar>
-                
-                <paper-icon-item onclick="location.href = '#'" style="border-bottom: 1px solid #EEEEEE;">
+
+                <?php  
+                    if (!isset($_SESSION["ID"])) {
+                        echo "<paper-icon-item onclick=\"location.href = 'login.php'\" style=\"border-bottom: 1px solid #EEEEEE;\">";
+                        echo "<iron-icon icon='account-circle' item-icon></iron-icon> Login";
+                        echo "</paper-icon-item>";
+                    } else {
+                        echo "<paper-icon-item onclick=\"location.href = 'account.php'\" style=\"border-bottom: 1px solid #EEEEEE;\">";
+                        echo "<iron-icon icon='account-circle' item-icon></iron-icon>";
+                        echo "<paper-item-body two-line><div>Account</div><div secondary>".$_SESSION["NOME"]." ".$_SESSION["COGNOME"]."</div>";
+                        echo "</paper-item-body>";
+                        echo "</paper-icon-item>";
+                    }
+                ?>
+                <paper-icon-item onclick="location.href = '#'" >
                     <iron-icon icon="dashboard" item-icon></iron-icon> Dashboard
                 </paper-icon-item>
                 <paper-icon-item onclick="location.href = '#'">
@@ -25,17 +38,6 @@
                 <paper-icon-item onclick="location.href = '#'">
                     <iron-icon icon="create" item-icon></iron-icon> Create
                 </paper-icon-item>
-                <?php  
-                    if (!isset($_SESSION["ID"])) {
-                        echo "<paper-icon-item onclick=\"location.href = 'login.php'\">";
-                        echo "<iron-icon icon='account-circle' item-icon></iron-icon> Login";
-                        echo "</paper-icon-item>";
-                    } else {
-                        echo "<paper-icon-item onclick=\"location.href = 'account.php'\">";
-                        echo "<iron-icon icon='account-circle' item-icon></iron-icon> Account";
-                        echo "</paper-icon-item>";
-                    }
-                ?>
                 </paper-header-panel>
 
             <paper-header-panel mode="waterfall" main class="header-main">

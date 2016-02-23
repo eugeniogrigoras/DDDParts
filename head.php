@@ -28,6 +28,7 @@
         <link rel="import" href="bower_components/paper-input/paper-input.html">
         <link rel="import" href="bower_components/paper-input/paper-textarea.html">
         <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
+        <link rel="import" href="bower_components/iron-flex-layout/classes/iron-flex-layout.html">
         <link rel="import" href="bower_components/paper-scroll-header-panel/demo/sample-content.html">
         <link rel="import" href="bower_components/paper-item/paper-item.html">
         <link rel="import" href="bower_components/paper-item/all-imports.html">
