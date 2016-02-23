@@ -1,5 +1,12 @@
 <?php require 'head.php';?>
 
+<?php 
+    if (isset($_REQUEST["logout"]) && $_REQUEST["logout"]=="true") {
+        session_unset();
+        session_destroy(); 
+    }
+?>
+
 <title>Login</title>
 
 <style is="custom-style">
@@ -50,8 +57,14 @@
 <!-- Inizio Sign In  -->
 <div class="centered" style="margin-top:24px">
     <div class="vertical-section" style="padding:0;">
-        <div class="title" style="padding:24px">Login</div>
-        <form style="padding:24px;" is="iron-form" id="formPost" action="elogin.php" method="post" enctype="multipart/form-data">
+        <?php 
+            if (!isset($_REQUEST["err"])) {
+                echo "<div class=\"title\" style=\"padding:24px\">Login</div>";
+            } else if ($_REQUEST["err"]=="true") {
+                echo "<div class=\"title\" style=\"padding:24px\">Login - Error</div>";
+            }
+        ?>
+        <form style="padding:24px;" id="formPost" action="elogin.php" method="post" enctype="multipart/form-data">
             <gold-email-input name="email" required auto-validate error-message="Please enter a valid email!" label="Email contact"></gold-email-input>
             <paper-input name="password" label="Password" type="password" required></paper-input>
             <br>

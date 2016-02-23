@@ -50,6 +50,16 @@
         margin:auto auto;
         @apply(--shadow-elevation-4dp);
     }
+
+    paper-checkbox.grey {
+        @apply(--paper-font-caption);
+        color: var(--light-primary-color);
+        --paper-checkbox-checked-color: var(--paper-grey-800);
+        --paper-checkbox-checked-ink-color: var(--paper-grey-800);
+        --paper-checkbox-unchecked-color: var(--light-primary-color);
+        --paper-checkbox-unchecked-ink-color: var(--light-primary-color);
+        --paper-checkbox-label-color: var(--paper-grey-800);
+    }
 </style>
 
 <?php require 'navbar.php';?>
@@ -63,7 +73,7 @@
                 <img id="preview" src="img/default.jpg" >
             </div>
         </div>
-        <form  style="padding:12px 24px" is="iron-form" id="formPost" action="upload.php" method="post" enctype="multipart/form-data">
+        <form style="padding:12px 24px; padding-bottom:24px;" id="formPost" action="upload.php" method="post" enctype="multipart/form-data">
             <input value="img/default.jpg" accept=".jpg,.jpeg" type="file" name="fileToUpload" id="fileToUpload" style="display:none;visibility:hidden;">
             <paper-input required name="name" label="Name" type="text"  auto-validate pattern="[a-zA-Z]*" error-message="Letters only!"></paper-input>
             <paper-input required name="surname" label="Surname" type="text"  auto-validate pattern="[a-zA-Z]*" error-message="Letters only!"></paper-input>
@@ -96,9 +106,9 @@
             <paper-input required id="repeat_password" error-message="Password is not the same!" name="repeat_password" label="Repeat Password" type="password"></paper-input>
             <paper-textarea id="description" name="description" label="Description" type="text" char-counter maxlength="300"></paper-textarea>
             <input type="text" name="descriptionhidden" value="" id="descriptionhidden" style="display:none">
-            <br>
-            <paper-checkbox style="font-size: 10px;">I have read and agree to the Privacy Policy</paper-checkbox>
             <br><br>
+            <paper-checkbox required class="grey">I have read and agree to the Privacy Policy</paper-checkbox>
+            <br><br><br>
             <paper-button id="paper-button" onclick="submitForm()">Submit</paper-button>
             <button type="submit" id="SubmitButton" name="submit" style="display:none"></button>
             

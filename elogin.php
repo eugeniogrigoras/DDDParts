@@ -17,7 +17,7 @@
 		$_SESSION["EMAIL"]=$riga[EMAIL];
 		header("location: index.php");
 	} else {
-		header("location: login.php?err=utente o password errati");
+		header("location: login.php?err=true");
 	}
 
 	mysql_close($conn);   

@@ -12,6 +12,10 @@
         <div class="title" style="padding:24px">Account</div>
             <div class="submit-button-container">
                 <button type="button" name="logout" onclick="logout()">Logout</button>
+                <p>
+                <?php
+                    print_r($_SESSION);
+                ?></p>
             </div>
         <hr style="margin:0;">
     </div>
@@ -22,10 +26,7 @@
 
 <script>
 	function logout(){
-		<?php 
-			session_unset();
-			header("location: index.php");	
-		 ?>
+        location.href = 'login.php?logout=true';
 	}
 </script>
 

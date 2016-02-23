@@ -26,13 +26,13 @@
                     <iron-icon icon="create" item-icon></iron-icon> Create
                 </paper-icon-item>
                 <?php  
-                    if (empty($_SESSION["ID"])) {
-                        echo "<paper-icon-item onclick='location.href = 'login.php''>";
-                            echo "<iron-icon icon='account-circle' item-icon></iron-icon> Login";
+                    if (!isset($_SESSION["ID"])) {
+                        echo "<paper-icon-item onclick=\"location.href = 'login.php'\">";
+                        echo "<iron-icon icon='account-circle' item-icon></iron-icon> Login";
                         echo "</paper-icon-item>";
                     } else {
-                        echo "<paper-icon-item onclick='location.href = 'account.php''>";
-                            echo "<iron-icon icon='account-circle' item-icon></iron-icon> Account";
+                        echo "<paper-icon-item onclick=\"location.href = 'account.php'\">";
+                        echo "<iron-icon icon='account-circle' item-icon></iron-icon> Account";
                         echo "</paper-icon-item>";
                     }
                 ?>
