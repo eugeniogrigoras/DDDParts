@@ -140,7 +140,7 @@
                         .$_SESSION["NOME"]." "
                         .$_SESSION["COGNOME"]
                         ."<div class=\"flex\"></div>"
-                        ."<iron-icon onclick=\"\" id=\"settings\" icon=\"settings\" style=\"cursor:pointer\"></iron-icon></div>";
+                        ."<iron-icon onclick=\"location.href ='changeInformation.php?change=true'\" id=\"settings\" icon=\"settings\" style=\"cursor:pointer\"></iron-icon></div>";
             } else {
                 exit();
             }

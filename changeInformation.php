@@ -113,8 +113,8 @@
 
     $("#currentPassword").change(function(){
     	alert("ciao");
-    	//var cpass="<?php echo $PASSWORD; ?>";
-    	
+        var cpass="<?php echo $PASSWORD;?>";
+        alert (cpass);
     });
 
     function chooseImage() {
