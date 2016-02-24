@@ -1,3 +1,9 @@
+<?php 
+    session_start();
+    if (!isset($_SESSION["ID"])) {
+        header("location: login.php?err=true");
+    }
+?>
 <?php require 'head.php';?>
 
 <title>Account</title>
@@ -38,6 +44,15 @@
 
     .subtitle {
         @apply(--paper-font-caption);
+        color: var(--secondary-text-color);
+    }
+
+    .description {
+        @apply(--paper-font-common-base);
+
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
         color: var(--secondary-text-color);
     }
 
@@ -121,17 +136,17 @@
         <?php 
             if (isset($_SESSION["ID"])) {
                 echo "<div class=\"title\" style=\"padding:24px\">"
-                        ."<iron-icon onclick=\"logout()\" id=\"logout\" icon=\"power-settings-new\" style=\"margin-right:10px; cursor:pointer\"></iron-icon>"
+                        ."<iron-icon onclick=\"logout()\" id=\"logout\" icon=\"power-settings-new\" style=\"margin-right:24px; cursor:pointer\"></iron-icon>"
                         .$_SESSION["NOME"]." "
                         .$_SESSION["COGNOME"]
                         ."<div class=\"flex\"></div>"
                         ."<iron-icon onclick=\"\" id=\"settings\" icon=\"settings\" style=\"cursor:pointer\"></iron-icon></div>";
             } else {
-                echo "<div class=\"title\" style=\"padding:24px\">Login - Error</div>";
+                exit();
             }
         ?>
-        <paper-tooltip for="logout" position="bottom" offset="12" animation-delay="0">Logout</paper-tooltip>
-        <paper-tooltip for="settings" position="bottom" offset="12" animation-delay="0">Settings</paper-tooltip>
+        <paper-tooltip for="logout" position="top" offset="0" animation-delay="0">Logout</paper-tooltip>
+        <paper-tooltip for="settings" position="top" offset="0" animation-delay="0">Settings</paper-tooltip>
         <div style="padding:24px; background-image:url('img/bg1.jpg'); background-size:cover">
             <div id="avatar">
                 <?php
@@ -174,6 +189,11 @@
                     <paper-ripple recenters></paper-ripple>
                 </div>
             </div>
+            <div class="description row">
+                <div class="col s12">
+                
+                </div>
+            </div>
             <div class="submit-button-container" style="display:none">
                 <button type="button" name="logout" onclick="logout()">Logout</button>
                 <p>
@@ -181,6 +201,16 @@
                     print_r($_SESSION);
                 ?></p>
             </div>
+        </div>
+
+    </div>
+    <div class="vertical-section" style="padding:0;">
+        <div class="title" style="padding:24px; margin-top:24px; ">Description</div>
+        <div class="description" style="padding:24px">
+        <?php 
+            require "requestData.php";
+            echo $DESCRIPTION;
+        ?>
         </div>
     </div>
 </div>
