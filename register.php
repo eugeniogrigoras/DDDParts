@@ -107,7 +107,7 @@
             <paper-textarea id="description" name="description" label="Description" type="text" char-counter maxlength="300"></paper-textarea>
             <input type="text" name="descriptionhidden" value="" id="descriptionhidden" style="display:none">
             <br><br>
-            <paper-checkbox id="privacy" class="grey">I have read and agree to the Privacy Policy</paper-checkbox>
+            <paper-checkbox id="privacy" class="grey">I have read and agreed to the Terms of use</paper-checkbox>
             <br><br><br>
             <paper-button id="paper-button" onclick="submitForm()">Submit</paper-button>
             <button type="submit" id="SubmitButton" name="submit" style="display:none"></button>
