@@ -53,7 +53,7 @@
         font-size: 16px;
         font-weight: 400;
         line-height: 24px;
-        color: var(--secondary-text-color);
+        color: var(--light-primary-color);
     }
 
     paper-tooltip {
