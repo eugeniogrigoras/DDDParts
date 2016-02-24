@@ -1,5 +1,7 @@
 <?php 
-    session_start() 
+    if(!isset($_SESSION["ID"])) {
+        session_start();
+    }
 ?>
 <!doctype html>
 <html class="no-js" lang="it">

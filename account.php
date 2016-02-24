@@ -205,7 +205,10 @@
 
     </div>
     <div class="vertical-section" style="padding:0;">
-        <div class="title" style="padding:24px; margin-top:24px; ">Description</div>
+        <div class="title" style="padding:24px; margin-top:24px; background-color:#f6d73f; color:#424242">
+            <iron-icon icon="description" style="margin-right:24px;"></iron-icon>
+            Description
+        </div>
         <div class="description" style="padding:24px">
         <?php 
             require "requestData.php";
