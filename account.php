@@ -7,6 +7,8 @@
         @apply(--paper-font-title);
         background-color: #424242;
         color:white;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
     }
     #avatar img {
         width: 100%;
@@ -25,15 +27,91 @@
         @apply(--shadow-elevation-4dp);
     }
     div.account {
+        padding: 0px;
+    }
+
+    .number {
+        @apply(--paper-font-title);
+        color: var(--light-primary-color);
+        margin-bottom: 5px;
+    }
+
+    .subtitle {
+        @apply(--paper-font-caption);
+        color: var(--secondary-text-color);
+    }
+
+    paper-tooltip {
+        --paper-tooltip-background: var(--primary-color);
+        --paper-tooltip-opacity:1;
+    }
+
+    .card:hover {
+        cursor: pointer;
+    }
+
+    .card:hover:before {
+        @apply(--layout-fit);
+        background: currentColor;
+        content: '';
+        opacity: var(--dark-divider-opacity);
+        pointer-events: none;
+    }
+
+    .card {
         padding: 24px;
+        text-align: center;
+        position: relative;
+        display: inline-block;
+        background-color: #fff;
     }
-    div.sections {
-        @aplly(--layout-horizontal);
+
+    .card +.card {
+        border-left:1px solid var(--divider-color);
     }
-    paper-button {
-        @aplly(--layout);
-        @aplly(--layout-flex-auto);
+
+    @media only screen and (max-width : 992px) {
+        div.card:nth-of-type(1) {
+            border-right:1px solid var(--divider-color);
+        }
+        div.card:nth-of-type(3) {
+            border-right:1px solid var(--divider-color);
+        }
+        div.card:nth-of-type(5) {
+            border-right:1px solid var(--divider-color);
+        }
+        .card +.card {
+            border-left:0px solid var(--divider-color);
+        }
+        .card {
+            border-bottom:1px solid var(--divider-color);
+        }
+        #followed-collection {
+            border-bottom:0px solid var(--divider-color);;
+        }
+        #my-collection {
+            border-bottom:0px solid var(--divider-color);;
+        }
     }
+
+    @media only screen and (max-width : 600px) {
+        div.card:nth-of-type(1) {
+            border-right:0px solid var(--divider-color);
+        }
+        div.card:nth-of-type(3) {
+            border-right:0px solid var(--divider-color);
+        }
+        div.card:nth-of-type(5) {
+            border-right:0px solid var(--divider-color);
+        }
+        .card +.card {
+            border-top:1px solid var(--divider-color);
+        }
+        .card {
+            border-bottom:0px solid var(--divider-color);
+        }
+    }
+
 </style>
 
 <?php require 'navbar.php';?>
@@ -42,27 +120,61 @@
     <div class="vertical-section" style="padding:0;">
         <?php 
             if (isset($_SESSION["ID"])) {
-                echo "<div class=\"title\" style=\"padding:24px\">".$_SESSION["NOME"]." ".$_SESSION["COGNOME"]."</div>";
+                echo "<div class=\"title\" style=\"padding:24px\">"
+                        ."<iron-icon onclick=\"logout()\" id=\"logout\" icon=\"power-settings-new\" style=\"margin-right:10px; cursor:pointer\"></iron-icon>"
+                        .$_SESSION["NOME"]." "
+                        .$_SESSION["COGNOME"]
+                        ."<div class=\"flex\"></div>"
+                        ."<iron-icon onclick=\"\" id=\"settings\" icon=\"settings\" style=\"cursor:pointer\"></iron-icon></div>";
             } else {
                 echo "<div class=\"title\" style=\"padding:24px\">Login - Error</div>";
             }
         ?>
+        <paper-tooltip for="logout" position="bottom" offset="12" animation-delay="0">Logout</paper-tooltip>
+        <paper-tooltip for="settings" position="bottom" offset="12" animation-delay="0">Settings</paper-tooltip>
         <div style="padding:24px; background-image:url('img/bg1.jpg'); background-size:cover">
             <div id="avatar">
+                <?php
+                    $percorso=$_SESSION["NOME"]."-".$_SESSION["COGNOME"]."-".$_SESSION["EMAIL"];
+                    echo "<img id=\"preview\" src='users/".$percorso."/profile.jpg'>";
+                ?>
                 <img id="preview" src="img/default.jpg" >
             </div>
         </div>
         <div class="account">
-            <div class="sections">
-                <paper-button id="paper-button" class="flex" onclick="submitForm()">Submit</paper-button>
-                <paper-button id="paper-button" class="flex-2" onclick="submitForm()">Submit</paper-button>
-                <paper-button id="paper-button" class="flex-2" onclick="submitForm()">Submit</paper-button>
-                <paper-button id="paper-button" class="flex-2" onclick="submitForm()">Submit</paper-button>
-                <paper-button id="paper-button" class="flex-2" onclick="submitForm()">Submit</paper-button>
-                <paper-button id="paper-button" class="flex-2" onclick="submitForm()">Submit</paper-button>
-                <paper-button id="paper-button" class="flex-2" onclick="submitForm()">Submit</paper-button>
+            <div class="sections row" style="margin-bottom:0;">
+                <div class="card col l2 m6 s12" id="following">
+                    <div class="number">24</div>
+                    <div class="subtitle">FOLLOWING</div>
+                    <paper-ripple recenters></paper-ripple>
+                </div>
+                <div class="card col l2 m6 s12" id="follower">
+                    <div class="number">122</div>
+                    <div class="subtitle">FOLLOWER</div>
+                    <paper-ripple recenters></paper-ripple>
+                </div>
+                <div class="card col l2 m6 s12" id="likes">
+                    <div class="number">32</div>
+                    <div class="subtitle">LIKES</div>
+                    <paper-ripple recenters></paper-ripple>
+                </div>
+                <div class="card col l2 m6 s12" id="projects">
+                    <div class="number">12</div>
+                    <div class="subtitle">PROJECTS</div>
+                    <paper-ripple recenters></paper-ripple>
+                </div>
+                <div class="card col l2 m6 s12" id="my-collection">
+                    <div class="number">27</div>
+                    <div class="subtitle">MY COLLECTION</div>
+                    <paper-ripple recenters></paper-ripple>
+                </div>
+                <div class="card col l2 m6 s12" id="followed-collection">
+                    <div class="number">24</div>
+                    <div class="subtitle">FOLLOWED COLLECTION</div>
+                    <paper-ripple recenters></paper-ripple>
+                </div>
             </div>
-            <div class="submit-button-container">
+            <div class="submit-button-container" style="display:none">
                 <button type="button" name="logout" onclick="logout()">Logout</button>
                 <p>
                 <?php

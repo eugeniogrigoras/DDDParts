@@ -25,6 +25,7 @@
         <link rel="import" href="bower_components/iron-icons/iron-icons.html">
         <link rel="import" href="bower_components/iron-icons/av-icons.html">
         <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
+        <link rel="import" href="bower_components/paper-ripple/paper-ripple.html">
         <link rel="import" href="bower_components/paper-input/paper-input.html">
         <link rel="import" href="bower_components/paper-input/paper-textarea.html">
         <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
@@ -32,6 +33,7 @@
         <link rel="import" href="bower_components/paper-scroll-header-panel/demo/sample-content.html">
         <link rel="import" href="bower_components/paper-item/paper-item.html">
         <link rel="import" href="bower_components/paper-item/all-imports.html">
+        <link rel="import" href="bower_components/paper-tooltip/paper-tooltip.html">
         <link rel="import" href="bower_components/iron-image/iron-image.html">
         <link rel="import" href="bower_components/paper-button/paper-button.html">
         <link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
@@ -44,6 +46,7 @@
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/materialize.css">
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 
         <style is="custom-style">
