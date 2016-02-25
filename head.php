@@ -1,8 +1,5 @@
-<?php 
-    if(!isset($_SESSION["ID"])) {
-        session_start();
-    }
-?>
+<?php require 'functions.php';?>
+
 <!doctype html>
 <html class="no-js" lang="it">
     <head>

@@ -15,7 +15,6 @@
 		$_SESSION["NOME"]=$riga[NOME];
 		$_SESSION["COGNOME"]=$riga[COGNOME];
 		$_SESSION["EMAIL"]=$riga[EMAIL];
-		session_set_cookie_params(50000);
 		header("location: index.php");
 	} else {
 		header("location: login.php?err=true");

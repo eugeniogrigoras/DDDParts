@@ -73,7 +73,8 @@
                 <img id="preview" src="img/default.jpg" >
             </div>
         </div>
-        <form style="padding:12px 24px; padding-bottom:24px;" id="formPost" action="upload.php" method="post" enctype="multipart/form-data">
+        <form style="padding:12px 24px; padding-bottom:24px;" id="formPost" action="functions.php" method="post" enctype="multipart/form-data">
+            <input type="hidden" value="register" name="getpage">
             <input value="img/default.jpg" accept=".jpg,.jpeg" type="file" name="fileToUpload" id="fileToUpload" style="display:none;visibility:hidden;">
             <paper-input required name="name" label="Name" type="text"  auto-validate pattern="[a-zA-Z]*" error-message="Letters only!"></paper-input>
             <paper-input required name="surname" label="Surname" type="text"  auto-validate pattern="[a-zA-Z]*" error-message="Letters only!"></paper-input>

@@ -64,7 +64,8 @@
                 echo "<div class=\"title\" style=\"padding:24px\">Login - Error</div>";
             }
         ?>
-        <form style="padding:24px;" id="formPost" action="elogin.php" method="post" enctype="multipart/form-data">
+        <form style="padding:24px;" id="formPost" action="functions.php" method="post" enctype="multipart/form-data">
+            <input type="hidden" value="login" name="getpage">
             <gold-email-input name="email" required auto-validate error-message="Please enter a valid email!" label="Email contact"></gold-email-input>
             <paper-input name="password" label="Password" type="password" required></paper-input>
             <br>

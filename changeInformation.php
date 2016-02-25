@@ -62,7 +62,7 @@
     }
 </style>
 
-<?php require 'navbar.php'; require 'requestData.php';?>
+<?php require 'navbar.php'; ?>
 
 <!-- Inizio Register  -->
 <div class="centered" style="margin-top:24px">
@@ -71,18 +71,21 @@
         <div style="padding:24px; background-image:url('img/bg1.jpg'); background-size:cover">
             <div id="avatar" onclick="chooseImage()">
             	<?php
-                    $percorso=$_SESSION["NOME"]."-".$_SESSION["COGNOME"]."-".$_SESSION["EMAIL"];
-                    echo "<img id=\"preview\" src='users/".$percorso."/profile.jpg'>";
+                    echo "<img id=\"preview\" src='".requestPath()."/profile.jpg'>";
                 ?>
             </div>
         </div>
-        <form style="padding:12px 24px; padding-bottom:24px;" id="formPost" action="upload.php" method="post" enctype="multipart/form-data">
+        <?php
+            $data=requestData();
+        ?>
+        <form style="padding:12px 24px; padding-bottom:24px;" id="formPost" action="functions.php" method="post" enctype="multipart/form-data">
+            <input type="hidden" value="changeInformation" name="getpage">
             <input value="img/default.jpg" accept=".jpg,.jpeg" type="file" name="fileToUpload" id="fileToUpload" style="display:none;visibility:hidden;">
             <paper-input required id="currentPassword" error-message="Insert password!" name="password" label="Current Password" type="password"></paper-input>
-            <input type="text" name="currentPasswordInvisible" value="<?php echo $PASSWORD; ?>" id="currentPasswordInvisible" style="display:none">
+            <input type="text" name="currentPasswordInvisible" value="<?php echo $data["PASSWORD"]; ?>" id="currentPasswordInvisible" style="display:none">
             <paper-input id="password" error-message="Insert password!" name="password" label="New Password" type="password" disabled></paper-input>
             <paper-input id="repeat_password" error-message="Password is not the same!" name="repeat_password" label="Repeat New Password" type="password" disabled></paper-input>
-            <paper-textarea value="<?php echo $DESCRIPTION; ?>" id="description" name="description" label="Description" type="text" char-counter maxlength="300" disabled></paper-textarea>
+            <paper-textarea value="<?php echo $data["DESCRIPTION"]; ?>" id="description" name="description" label="Description" type="text" char-counter maxlength="300" disabled></paper-textarea>
             <input type="text" name="descriptionhidden" value="" id="descriptionhidden" style="display:none">
             <br><br>
             <paper-button id="paper-button" onclick="submitForm()">Update Information</paper-button>

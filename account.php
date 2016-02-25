@@ -134,24 +134,19 @@
 <div class="centered" style="margin-top:24px; max-width: 100%;">
     <div class="vertical-section" style="padding:0;">
         <?php 
-            if (isset($_SESSION["ID"])) {
-                echo "<div class=\"title\" style=\"padding:24px\">"
-                        ."<iron-icon onclick=\"logout()\" id=\"logout\" icon=\"exit-to-app\" style=\"margin-right:24px; cursor:pointer\"></iron-icon>"
-                        .$_SESSION["NOME"]." "
-                        .$_SESSION["COGNOME"]
-                        ."<div class=\"flex\"></div>"
-                        ."<iron-icon onclick=\"location.href ='changeInformation.php?change=true'\" id=\"settings\" icon=\"settings\" style=\"cursor:pointer\"></iron-icon></div>";
-            } else {
-                exit();
-            }
+            echo "<div class=\"title\" style=\"padding:24px\">"
+            ."<iron-icon onclick=\"location.href ='login.php?logout=true'\" id=\"logout\" icon=\"exit-to-app\" style=\"margin-right:24px; cursor:pointer\"></iron-icon>"
+            .$_SESSION["NOME"]." "
+            .$_SESSION["COGNOME"]
+            ."<div class=\"flex\"></div>"
+            ."<iron-icon onclick=\"location.href ='changeInformation.php?change=true'\" id=\"settings\" icon=\"settings\" style=\"cursor:pointer\"></iron-icon></div>";
         ?>
         <paper-tooltip for="logout" position="top" offset="0" animation-delay="0">Logout</paper-tooltip>
         <paper-tooltip for="settings" position="top" offset="0" animation-delay="0">Settings</paper-tooltip>
         <div style="padding:24px; background-image:url('img/bg1.jpg'); background-size:cover">
             <div id="avatar">
-                <?php
-                    $percorso=$_SESSION["NOME"]."-".$_SESSION["COGNOME"]."-".$_SESSION["EMAIL"];
-                    echo "<img id=\"preview\" src='users/".$percorso."/profile.jpg'>";
+                <?php  
+                    echo "<img id=\"preview\" src='".requestPath()."/profile.jpg'>";
                 ?>
                 <img id="preview" src="img/default.jpg" >
             </div>
@@ -165,7 +160,7 @@
                 </div>
                 <div class="card col l2 m6 s12" id="follower">
                     <div class="number">122</div>
-                    <div class="subtitle">FOLLOWER</div>
+                    <div class="subtitle">FOLLOWERS</div>
                     <paper-ripple recenters></paper-ripple>
                 </div>
                 <div class="card col l2 m6 s12" id="likes">
@@ -211,8 +206,7 @@
         </div>
         <div class="description" style="padding:24px">
         <?php 
-            require "requestData.php";
-            echo $DESCRIPTION;
+            echo requestData()["DESCRIPTION"];
         ?>
         </div>
     </div>
@@ -221,11 +215,5 @@
 <!-- ___________________________________ --> 
 
 <?php require 'footer.php';?>
-
-<script>
-	function logout(){
-        location.href = 'login.php?logout=true';
-	}
-</script>
 
 <?php require 'close.php';?>
