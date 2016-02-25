@@ -79,6 +79,7 @@
         <form style="padding:12px 24px; padding-bottom:24px;" id="formPost" action="upload.php" method="post" enctype="multipart/form-data">
             <input value="img/default.jpg" accept=".jpg,.jpeg" type="file" name="fileToUpload" id="fileToUpload" style="display:none;visibility:hidden;">
             <paper-input required id="currentPassword" error-message="Insert password!" name="password" label="Current Password" type="password"></paper-input>
+            <input type="text" name="currentPasswordInvisible" value="<?php echo "$PASSWORD"; ?>" id="currentPasswordInvisible" style="display:none">
             <paper-input required id="password" error-message="Insert password!" name="password" label="New Password" type="password" disabled></paper-input>
             <paper-input required id="repeat_password" error-message="Password is not the same!" name="repeat_password" label="Repeat New Password" type="password" disabled></paper-input>
             <paper-textarea value="<?php echo $DESCRIPTION; ?>" id="description" name="description" label="Description" type="text" char-counter maxlength="300" disabled></paper-textarea>
@@ -112,9 +113,12 @@
     });
 
     $("#currentPassword").change(function(){
-    	alert("ciao");
-        var cpass="<?php echo $PASSWORD;?>";
-        alert (cpass);
+    	if ($("#currentPasswordInvisible").value==$("#currentPassword").value) {
+    		$("#password").removeAttr("disabled");
+    		$("#repeat_password").removeAttr("disabled");
+    		$("#description").removeAttr("disabled");
+    	}
+    	
     });
 
     function chooseImage() {

@@ -4,6 +4,7 @@
 	$SURNAME;
 	$DESCRIPTION;
 	$EMAIL;
+	$PASSWORD;
 	if (isset($_SESSION["ID"])) {
 
 		$conn= new mysqli("localhost","root","",'my_dddparts'); 
@@ -20,6 +21,7 @@
 					$SURNAME = $riga["COGNOME"];
 					$DESCRIPTION = $riga["DESCRIZIONE"];
 					$EMAIL = $riga["EMAIL"];
+					$PASSWORD = $riga["PASSWORD"];
 				}
 	        } else {
 	            echo "Error: " . $comando . "<br>" . $conn->error;
