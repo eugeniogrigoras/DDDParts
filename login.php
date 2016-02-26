@@ -1,11 +1,12 @@
-<?php require 'head.php';?>
-
 <?php 
+    session_start();
     if (isset($_REQUEST["logout"]) && $_REQUEST["logout"]=="true") {
         session_unset();
         session_destroy(); 
     }
 ?>
+
+<?php require 'head.php';?>
 
 <title>Login</title>
 
@@ -60,7 +61,7 @@
         <?php 
             if (!isset($_REQUEST["err"])) {
                 echo "<div class=\"title\" style=\"padding:24px\">Login</div>";
-            } else if ($_REQUEST["err"]=="true") {
+            } else if ($_REQUEST["err"]) {
                 echo "<div class=\"title\" style=\"padding:24px\">Login - Error</div>";
             }
         ?>

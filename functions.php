@@ -1,22 +1,61 @@
 <?php
-	if(!isset($_SESSION["ID"])) {
-        session_start();
-        if ($_SESSION==array()) {
-        	if (curPageName()=="functions.php") {
-	        	if((!isset($_POST['submit'])) && (!isset($_REQUEST["getpage"]))) {
-	        		header("location: login.php");
-	        		exit();
-	        	} else {
+	session_start();
+    if ($_SESSION==array()) {
+    	if (curPageName()=='functions.php'){
+	    	if((isset($_POST['submit'])) && (isset($_REQUEST["getpage"]))) {
+	    		
+	    	} else {
+	    		if ((isset($_REQUEST["getpage"])) && ($_REQUEST["getpage"]=="activate")) {
 
-	        	}
-        	}
-        }
+	    		} else {
+	    			header("location: login.php");
+	    			exit();
+	    		}
+	    	}
+	    } else {
+	    	//TUTTE LE PAGINE RAGGIUNGIBILI DA NON SESSSATO
+	    	if ((curPageName()=='login.php') || (curPageName()=='register.php') || (curPageName()=='index.php')){
+
+	    	} else {
+	    		header("location: login.php");
+	    		exit();
+	    	}
+	    }
+    } else {
+    	//TUTTE LE PAGINE NON RAGGIUNGIBILI DA SESSSATO
+    	if ((curPageName()=='login.php') || (curPageName()=='register.php')) {
+			header("location: account.php");
+			exit();
+		}
+    }
+
+    if ((isset($_REQUEST["getpage"])) && ($_REQUEST["getpage"]=="activate")) {
+    	$codice=$_REQUEST['codice'];
+		$id=$_REQUEST['id'];
+		if (!isset($codice) || !isset($id)) {
+			header("location: login.php?err=noUser");
+			exit();
+		} else {
+			$QUERY=executeQuery("select * from utenti where CODICE_CONFERMA='$codice' and ID=$id");
+			if ($QUERY) {
+				$QUERY=executeQuery("update utenti SET ACCETTATO = '1' WHERE ID = $id;");
+				if ($QUERY) {
+					header("location: login.php?confirmed=true");
+					exit();
+				}
+			} else {
+				header("location: login.php?err=noUserInDatabase");
+				exit();
+			}
+		}
     }
 
 	if(isset($_POST['submit'])) {
    		if (isset($_REQUEST["getpage"])) {
    			switch ($_REQUEST["getpage"]) {
+
    				case 'changeInformation':
+   					imageUpload();
 					$data=requestData();
 					if ($data) {
 						if (isset($_REQUEST["descriptionhidden"])) {
@@ -29,8 +68,10 @@
 	   							changePassword($_REQUEST["password"]);
 	   						}
 						}
+						header("location: account.php?updated=true");
+						exit();
 					}
-					header("location: account.php?updated=true");
+					header("location: account.php?updated=false");
 					exit();
    					break;
 
@@ -105,25 +146,6 @@
 				    exit();
    					break;
 
-   				case 'activate':
-   					$codice=$_REQUEST['codice'];
-    				$id=$_REQUEST['id'];
-    				if (!isset($codice) || !isset($id)) {
-
-    				} else {
-    					$QUERY=executeQuery("select * from utenti where CODICE_CONFERMA=$codice and ID=$id");
-    					if ($QUERY->num_rows > 0) {
-    						$QUERY=executeQuery("update utenti SET ACCETTATO = '1' WHERE ID = $id;");
-    						if ($QUERY) {
-    							header("location: login.php?confirmed=true");
-    							exit();
-    						}
-    					} else {
-    						header("location: login.php?err=noUser");
-    						exit();
-    					}
-    				}
-   					break;
    				default:
    					header("location: index.php");
    					exit();
@@ -273,26 +295,12 @@
 
 	function convertImage($originalImage, $outputImage, $quality)
 	{
-	    // jpg, png, gif or bmp?
-	    $exploded = explode('.',$originalImage);
-	    $ext = $exploded[count($exploded) - 1]; 
-
-	    if (preg_match('/jpg|jpeg/i',$ext))
-	        $imageTmp=imagecreatefromjpeg($originalImage);
-	    else if (preg_match('/png/i',$ext))
-	        $imageTmp=imagecreatefrompng($originalImage);
-	    else if (preg_match('/gif/i',$ext))
-	        $imageTmp=imagecreatefromgif($originalImage);
-	    else if (preg_match('/bmp/i',$ext))
-	        $imageTmp=imagecreatefrombmp($originalImage);
-	    else
-	        return false;
-
-	    // quality is a value from 0 (worst) to 100 (best)
-	    imagejpeg($imageTmp, $outputImage, $quality);
-	    imagedestroy($imageTmp);
-
-	    return true;
+	    if(imagejpeg(imagecreatefromstring(file_get_contents($originalImage)), $outputImage, $quality)) {
+	    	return true;
+	    } else {
+	    	return false;
+	    }
+	    
 	}
 
 	function imageUpload() {
@@ -301,7 +309,7 @@
         } else { 
             // Qua diamo il nome all'immagine: NomeCognome + . + estensione; quindi dobbiamo solo dare il nome
             $_FILES['fileToUpload']['name']="profile.".pathinfo($_FILES['fileToUpload']['name'],PATHINFO_EXTENSION);
-            $target_file = requestPath()."/". basename($_FILES["fileToUpload"]["name"]);
+            $target_file = requestPath()."/profile.jpg";
             $uploadOk = 1;
             $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
             // Check if image file is a actual image or fake image
@@ -313,11 +321,7 @@
                 echo "File is not an image.";
                 $uploadOk = 0;
             }
-            // Check if file already exists
-            /*if (file_exists($target_file)) {
-                echo "Sorry, file already exists.";
-                $uploadOk = 0;
-            }*/
+
             // Check file size
             if ($_FILES["fileToUpload"]["size"] > 5000000) {
                 echo "Sorry, your file is too large.";
@@ -333,10 +337,10 @@
                 echo "Sorry, your file was not uploaded.";
             // if everything is ok, try to upload file
             } else {
-                if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                    echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-                    echo $target_file;
-                } else {
+            	if (convertImage($_FILES["fileToUpload"]["tmp_name"], $target_file, 100)) {
+            		echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+            	}
+                else {
                     echo "Sorry, there was an error uploading your file.";
                 }
             }
