@@ -3,8 +3,6 @@
         session_start();
     }
 
-    $LASTINSERTEDID;
-
 	if(isset($_POST['submit'])) {
    		if (isset($_REQUEST["getpage"])) {
    			switch ($_REQUEST["getpage"]) {
@@ -64,7 +62,7 @@
 				    } else {
 				    	$randomString=randomString(10);
 				    	$QUERY=executeQuery("insert ignore into utenti  (NOME, COGNOME, EMAIL, DESCRIZIONE, PASSWORD, CODICE_CONFERMA, ACCETTATO, FK_COMUNE) VALUES ('$name', '$surname', '$email', '$description', '$password', '$randomString', 'FALSE', '$comune')");
-				    	$last_id = $LASTINSERTEDID;
+				    	$last_id = $_SESSION["LASTINSERTEDID"];
 				    	if ($last_id==0) {
 			                echo "Email già registrata!";
 			            } else {
@@ -76,7 +74,11 @@
 			            	echo "New record created successfully. Last inserted ID is: " . $last_id;
 			            	if (!file_exists(requestPath())) {
 			                    mkdir(requestPath(), 0777, true);
-			                    copy('img/default.jpg', requestPath()."/profile.jpg"); 
+			           			copy('img/default.jpg', requestPath()."/profile.jpg");
+			                } else {
+			                	if (!file_exists(requestPath()."/profile.jpg")) {
+			                		copy('img/default.jpg', requestPath()."/profile.jpg");
+			                	}
 			                }
 
 			                localMail($email, $name, $surname, $randomString, $last_id);
@@ -87,8 +89,8 @@
         					session_destroy();
 			            }
 				    }
-				    //header("location: login.php");
-				    //exit();
+				    header("location: login.php");
+				    exit();
    					break;
    				default:
    					header("location: index.php");
@@ -151,7 +153,7 @@
     	} else {
     		$ris=$conn->query($QUERY);
     		if ($ris) {
-    			$LASTINSERTEDID=$conn->insert_id;
+    			$_SESSION["LASTINSERTEDID"]=$conn->insert_id;
     			mysqli_close($conn);
     			return $ris;
     		} else {
@@ -166,7 +168,6 @@
 		if($QUERY) {
 			return true;
 		} else {
-			echo "Vaffanculo";
 			return false;
 		}
 	}
@@ -266,8 +267,7 @@
         } else { 
             // Qua diamo il nome all'immagine: NomeCognome + . + estensione; quindi dobbiamo solo dare il nome
             $_FILES['fileToUpload']['name']="profile.".pathinfo($_FILES['fileToUpload']['name'],PATHINFO_EXTENSION);
-            $target_dir = $nomeCartella."/";
-            $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+            $target_file = requestPath()."/". basename($_FILES["fileToUpload"]["name"]);
             $uploadOk = 1;
             $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
             // Check if image file is a actual image or fake image
