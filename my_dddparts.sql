@@ -8728,87 +8728,87 @@ ALTER TABLE `utenti_seguono_utenti`
 -- Limiti per la tabella `categorie_secondarie`
 --
 ALTER TABLE `categorie_secondarie`
-  ADD CONSTRAINT `categorie_secondarie_ibfk_1` FOREIGN KEY (`FK_CATEGORIA_PRIMARIA`) REFERENCES `categorie_primarie` (`ID`);
+  ADD CONSTRAINT `categorie_secondarie_ibfk_1` FOREIGN KEY (`FK_CATEGORIA_PRIMARIA`) REFERENCES `categorie_primarie` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `collezioni`
 --
 ALTER TABLE `collezioni`
-  ADD CONSTRAINT `collezioni_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`);
+  ADD CONSTRAINT `collezioni_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `collezioni_composte_da_progetti`
 --
 ALTER TABLE `collezioni_composte_da_progetti`
-  ADD CONSTRAINT `collezioni_composte_da_progetti_ibfk_1` FOREIGN KEY (`FK_COLLEZIONE`) REFERENCES `collezioni` (`ID`),
-  ADD CONSTRAINT `collezioni_composte_da_progetti_ibfk_2` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`);
+  ADD CONSTRAINT `collezioni_composte_da_progetti_ibfk_1` FOREIGN KEY (`FK_COLLEZIONE`) REFERENCES `collezioni` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `collezioni_composte_da_progetti_ibfk_2` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `immagini`
 --
 ALTER TABLE `immagini`
-  ADD CONSTRAINT `immagini_ibfk_1` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`);
+  ADD CONSTRAINT `immagini_ibfk_1` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `parti_3d`
 --
 ALTER TABLE `parti_3d`
-  ADD CONSTRAINT `parti_3d_ibfk_1` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`);
+  ADD CONSTRAINT `parti_3d_ibfk_1` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `progetti`
 --
 ALTER TABLE `progetti`
-  ADD CONSTRAINT `progetti_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`),
-  ADD CONSTRAINT `progetti_ibfk_2` FOREIGN KEY (`FK_CATEGORIA_SECONDARIA`) REFERENCES `categorie_secondarie` (`ID`);
+  ADD CONSTRAINT `progetti_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `progetti_ibfk_2` FOREIGN KEY (`FK_CATEGORIA_SECONDARIA`) REFERENCES `categorie_secondarie` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `progetti_hanno_tag`
 --
 ALTER TABLE `progetti_hanno_tag`
-  ADD CONSTRAINT `progetti_hanno_tag_ibfk_1` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`),
-  ADD CONSTRAINT `progetti_hanno_tag_ibfk_2` FOREIGN KEY (`FK_TAG`) REFERENCES `tag` (`ID`);
+  ADD CONSTRAINT `progetti_hanno_tag_ibfk_1` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `progetti_hanno_tag_ibfk_2` FOREIGN KEY (`FK_TAG`) REFERENCES `tag` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `utenti`
 --
 ALTER TABLE `utenti`
-  ADD CONSTRAINT `utenti_ibfk_1` FOREIGN KEY (`FK_COMUNE`) REFERENCES `comuni` (`id`);
+  ADD CONSTRAINT `utenti_ibfk_1` FOREIGN KEY (`FK_COMUNE`) REFERENCES `comuni` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `utenti_commentano_progetti`
 --
 ALTER TABLE `utenti_commentano_progetti`
-  ADD CONSTRAINT `utenti_commentano_progetti_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`),
-  ADD CONSTRAINT `utenti_commentano_progetti_ibfk_2` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`);
+  ADD CONSTRAINT `utenti_commentano_progetti_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `utenti_commentano_progetti_ibfk_2` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `utenti_like_collezioni`
 --
 ALTER TABLE `utenti_like_collezioni`
-  ADD CONSTRAINT `utenti_like_collezioni_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`),
-  ADD CONSTRAINT `utenti_like_collezioni_ibfk_2` FOREIGN KEY (`FK_COLLEZIONE`) REFERENCES `collezioni` (`ID`);
+  ADD CONSTRAINT `utenti_like_collezioni_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `utenti_like_collezioni_ibfk_2` FOREIGN KEY (`FK_COLLEZIONE`) REFERENCES `collezioni` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `utenti_like_progetti`
 --
 ALTER TABLE `utenti_like_progetti`
-  ADD CONSTRAINT `utenti_like_progetti_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`),
-  ADD CONSTRAINT `utenti_like_progetti_ibfk_2` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`);
+  ADD CONSTRAINT `utenti_like_progetti_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `utenti_like_progetti_ibfk_2` FOREIGN KEY (`FK_PROGETTO`) REFERENCES `progetti` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `utenti_seguono_collezioni`
 --
 ALTER TABLE `utenti_seguono_collezioni`
-  ADD CONSTRAINT `utenti_seguono_collezioni_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`),
-  ADD CONSTRAINT `utenti_seguono_collezioni_ibfk_2` FOREIGN KEY (`FK_COLLEZIONE`) REFERENCES `collezioni` (`ID`);
+  ADD CONSTRAINT `utenti_seguono_collezioni_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `utenti_seguono_collezioni_ibfk_2` FOREIGN KEY (`FK_COLLEZIONE`) REFERENCES `collezioni` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `utenti_seguono_utenti`
 --
 ALTER TABLE `utenti_seguono_utenti`
-  ADD CONSTRAINT `utenti_seguono_utenti_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`),
-  ADD CONSTRAINT `utenti_seguono_utenti_ibfk_2` FOREIGN KEY (`FK_UTENTE_SEGUITO`) REFERENCES `utenti` (`ID`);
+  ADD CONSTRAINT `utenti_seguono_utenti_ibfk_1` FOREIGN KEY (`FK_UTENTE`) REFERENCES `utenti` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `utenti_seguono_utenti_ibfk_2` FOREIGN KEY (`FK_UTENTE_SEGUITO`) REFERENCES `utenti` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
