@@ -1,6 +1,16 @@
 <?php
 	if(!isset($_SESSION["ID"])) {
         session_start();
+        if ($_SESSION==array()) {
+        	if (curPageName()=="functions.php") {
+	        	if((!isset($_POST['submit'])) && (!isset($_REQUEST["getpage"]))) {
+	        		header("location: login.php");
+	        		exit();
+	        	} else {
+
+	        	}
+        	}
+        }
     }
 
 	if(isset($_POST['submit'])) {
@@ -64,7 +74,8 @@
 				    	$QUERY=executeQuery("insert ignore into utenti  (NOME, COGNOME, EMAIL, DESCRIZIONE, PASSWORD, CODICE_CONFERMA, ACCETTATO, FK_COMUNE) VALUES ('$name', '$surname', '$email', '$description', '$password', '$randomString', 'FALSE', '$comune')");
 				    	$last_id = $_SESSION["LASTINSERTEDID"];
 				    	if ($last_id==0) {
-			                echo "Email già registrata!";
+			                header("location: register.php?err=mailAlreadyExist");
+			                exit();
 			            } else {
 			            	$_SESSION["ID"]=$last_id;
 							$_SESSION["NOME"]=$name;
@@ -84,13 +95,34 @@
 			                localMail($email, $name, $surname, $randomString, $last_id);
 			                //altervista($email, $randomString, $last_id);
 
-			                controlloImmagine();
+			                imageUpload();
 			                session_unset();
         					session_destroy();
+        					header("location: login.php");
+				    		exit();
 			            }
 				    }
-				    header("location: login.php");
 				    exit();
+   					break;
+
+   				case 'activate':
+   					$codice=$_REQUEST['codice'];
+    				$id=$_REQUEST['id'];
+    				if (!isset($codice) || !isset($id)) {
+
+    				} else {
+    					$QUERY=executeQuery("select * from utenti where CODICE_CONFERMA=$codice and ID=$id");
+    					if ($QUERY->num_rows > 0) {
+    						$QUERY=executeQuery("update utenti SET ACCETTATO = '1' WHERE ID = $id;");
+    						if ($QUERY) {
+    							header("location: login.php?confirmed=true");
+    							exit();
+    						}
+    					} else {
+    						header("location: login.php?err=noUser");
+    						exit();
+    					}
+    				}
    					break;
    				default:
    					header("location: index.php");
@@ -153,7 +185,9 @@
     	} else {
     		$ris=$conn->query($QUERY);
     		if ($ris) {
-    			$_SESSION["LASTINSERTEDID"]=$conn->insert_id;
+    			if (isset($_REQUEST["getpage"]) && $_REQUEST["getpage"]=='register') {
+    				$_SESSION["LASTINSERTEDID"]=$conn->insert_id;
+    			}	
     			mysqli_close($conn);
     			return $ris;
     		} else {
@@ -196,30 +230,6 @@
 		}
 	}
 
-	function convertImage($originalImage, $outputImage, $quality)
-	{
-	    // jpg, png, gif or bmp?
-	    $exploded = explode('.',$originalImage);
-	    $ext = $exploded[count($exploded) - 1]; 
-
-	    if (preg_match('/jpg|jpeg/i',$ext))
-	        $imageTmp=imagecreatefromjpeg($originalImage);
-	    else if (preg_match('/png/i',$ext))
-	        $imageTmp=imagecreatefrompng($originalImage);
-	    else if (preg_match('/gif/i',$ext))
-	        $imageTmp=imagecreatefromgif($originalImage);
-	    else if (preg_match('/bmp/i',$ext))
-	        $imageTmp=imagecreatefrombmp($originalImage);
-	    else
-	        return false;
-
-	    // quality is a value from 0 (worst) to 100 (best)
-	    imagejpeg($imageTmp, $outputImage, $quality);
-	    imagedestroy($imageTmp);
-
-	    return $outputImage;
-	}
-
 	function randomString($length) {
     	return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
 	}
@@ -242,7 +252,7 @@
         $mail->addAddress($email, $name." ".$surname);     // Add a recipient             // Name is optional
 
         $mail->Subject = 'Attivazione acount DDDParts!';
-        $mail->Body    = "Conferma il tuo account: http://localhost/DDDParts/activate.php?codice=$randomString&id=$last_id";
+        $mail->Body    = "Conferma il tuo account: http://localhost/DDDParts/functions.php?getpage=activate&codice=$randomString&id=$last_id";
 
         if(!$mail->send()) {
             echo 'Message could not be sent.';
@@ -254,14 +264,38 @@
 	function altervistaMail($email, $randomString, $last_id) {
 		$to  = $email;
         $subject = "Registrazione effettuata con successo!";
-        $message = "Conferma il tuo account: http://dddparts.altervista.org/activate.php?codice=$randomString&id=$last_id";;
+        $message = "Conferma il tuo account: http://dddparts.altervista.org/functions.php?getpage=activate&codice=$randomString&id=$last_id";;
         $headers = 'From: DDDParts' . "\r\n" .
                    'Reply-To: info.dddparts@gmail.com' . "\r\n" .
                    'X-Mailer: PHP/' . phpversion();
         mail($to, $subject, $message, $headers);
 	}
 
-	function controlloImmagine() {
+	function convertImage($originalImage, $outputImage, $quality)
+	{
+	    // jpg, png, gif or bmp?
+	    $exploded = explode('.',$originalImage);
+	    $ext = $exploded[count($exploded) - 1]; 
+
+	    if (preg_match('/jpg|jpeg/i',$ext))
+	        $imageTmp=imagecreatefromjpeg($originalImage);
+	    else if (preg_match('/png/i',$ext))
+	        $imageTmp=imagecreatefrompng($originalImage);
+	    else if (preg_match('/gif/i',$ext))
+	        $imageTmp=imagecreatefromgif($originalImage);
+	    else if (preg_match('/bmp/i',$ext))
+	        $imageTmp=imagecreatefrombmp($originalImage);
+	    else
+	        return false;
+
+	    // quality is a value from 0 (worst) to 100 (best)
+	    imagejpeg($imageTmp, $outputImage, $quality);
+	    imagedestroy($imageTmp);
+
+	    return true;
+	}
+
+	function imageUpload() {
 		if ($_FILES['fileToUpload']['size'] == 0 || $_FILES['fileToUpload']['error'] != 0) {
             echo "Error!";     
         } else { 
@@ -271,15 +305,13 @@
             $uploadOk = 1;
             $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
             // Check if image file is a actual image or fake image
-            if(isset($_POST["submit"])) {
-                $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-                if($check !== false) {
-                    echo "File is an image - " . $check["mime"] . ".";
-                    $uploadOk = 1;
-                } else {
-                    echo "File is not an image.";
-                    $uploadOk = 0;
-                }
+            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+            if($check !== false) {
+                echo "File is an image - " . $check["mime"] . ".";
+                $uploadOk = 1;
+            } else {
+                echo "File is not an image.";
+                $uploadOk = 0;
             }
             // Check if file already exists
             /*if (file_exists($target_file)) {
@@ -309,5 +341,8 @@
                 }
             }
         }
+	}
+	function curPageName() {
+		return substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);
 	}
 ?>
