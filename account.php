@@ -167,14 +167,14 @@
                     <div class="subtitle">PROJECTS</div>
                     <paper-ripple recenters></paper-ripple>
                 </div>
-                <div class="card col l2 m6 s12" id="my-collection">
+                <div class="card col l2 m6 s12" id="my-collections">
                     <div class="number">27</div>
-                    <div class="subtitle">MY COLLECTION</div>
+                    <div class="subtitle">MY COLLECTIONS</div>
                     <paper-ripple recenters></paper-ripple>
                 </div>
-                <div class="card col l2 m6 s12" id="followed-collection">
+                <div class="card col l2 m6 s12" id="followed-collections">
                     <div class="number">24</div>
-                    <div class="subtitle">FOLLOWED COLLECTION</div>
+                    <div class="subtitle">FOLLOWED COLLECTIONS</div>
                     <paper-ripple recenters></paper-ripple>
                 </div>
             </div>

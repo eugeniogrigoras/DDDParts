@@ -170,6 +170,10 @@
 		}
 	}
 
+	function requestPathUser($NAME, $SURNAME, $EMAIL) {
+		return "users/".$NAME."-".$SURNAME."-".$EMAIL;
+	}
+
 	function requestData() {
 		if (controlSession()) {
 			$data=executeQuery("select * from utenti where ID=".$_SESSION["ID"]);
@@ -349,4 +353,45 @@
 	function curPageName() {
 		return substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);
 	}
+	function getUtente($ID, $NAME, $SURNAME, $EMAIL, $FK_COMUNE, $CONT) {
+		if ($CONT & 1 ) { 
+			echo "<div class=\"utente-box col l6 m12 s12\" style=\"padding-right:0px; margin-bottom:24px\">";  
+		} else {
+		    echo "<div class=\"utente-box col l6 m12 s12\" style=\"padding-right:24px; margin-bottom:24px\">";
+		} 
+		
+		echo "<div class=\"utente\">";
+			echo"<div class=\"title\" style=\"padding:24px\">"
+		            ."<iron-icon onclick=\"location.href ='login.php?logout=true'\" id=\"$ID\" icon=\"favorite-border\" style=\"margin-right:24px; cursor:pointer\"></iron-icon>"
+		            .$NAME." "
+		            .$SURNAME
+				."</div>";
+		
+		echo "<div style=\"padding:24px; background-image:url('img/bg1.jpg'); background-size:cover\">"
+            ."<div id=\"avatar\">";
+                echo "<img id=\"preview\" src='".requestPathUser($NAME, $SURNAME, $EMAIL)."/profile.jpg'>";
+        echo "</div></div>";
+
+        echo "<div class=\"account\">"
+	        	."<div class=\"sections row\" style=\"margin-bottom:0;\">"
+		        	."<div class=\"card col s4\" id=\"projects\">"
+			        	."<div class=\"number\">12</div>"
+			        	."<div class=\"subtitle\">PROJECTS</div>"
+			        	."<paper-ripple recenters></paper-ripple>"
+		        	."</div>"
+		        	."<div class=\"card col s4\" id=\"my-collection\">"
+			        	."<div class=\"number\">27</div>"
+			        	."<div class=\"subtitle\">COLLECTIONS</div>"
+			        	."<paper-ripple recenters></paper-ripple>"
+		        	."</div>"
+		        	."<div class=\"card col s4\" id=\"city\">"
+			        	."<div class=\"number\">REGGIO EMILIA</div>"
+			        	."<div class=\"subtitle\">CITY</div>"
+			        	."<paper-ripple recenters></paper-ripple>"
+		        	."</div>"
+		        ."</div>"
+		    ."</div>";
+		echo "</div>";
+        echo "</div>";
+	}	
 ?>
