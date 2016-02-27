@@ -148,32 +148,62 @@
         <div class="account">
             <div class="sections row" style="margin-bottom:0;">
                 <div class="card col l2 m6 s12" id="following">
-                    <div class="number">24</div>
+                    <div class="number">
+                        <?php
+                            $QUERY=executeQuery("select * FROM utenti_seguono_utenti where FK_UTENTE=".$_SESSION["ID"]);
+                            echo $QUERY->num_rows; 
+                        ?>
+                    </div>
                     <div class="subtitle">FOLLOWING</div>
                     <paper-ripple recenters></paper-ripple>
                 </div>
                 <div class="card col l2 m6 s12" id="follower">
-                    <div class="number">122</div>
+                    <div class="number">
+                        <?php
+                            $QUERY=executeQuery("select * FROM utenti_seguono_utenti where FK_UTENTE_SEGUITO=".$_SESSION["ID"]);
+                            echo $QUERY->num_rows; 
+                        ?>
+                    </div>
                     <div class="subtitle">FOLLOWERS</div>
                     <paper-ripple recenters></paper-ripple>
                 </div>
                 <div class="card col l2 m6 s12" id="likes">
-                    <div class="number">32</div>
+                    <div class="number">
+                        <?php
+                            $QUERY=executeQuery("select * FROM utenti_like_progetti as p, utenti_like_collezioni as c where p.FK_UTENTE=".$_SESSION["ID"]." and c.FK_UTENTE=".$_SESSION["ID"]);
+                            echo $QUERY->num_rows; 
+                        ?>
+                    </div>
                     <div class="subtitle">LIKES</div>
                     <paper-ripple recenters></paper-ripple>
                 </div>
                 <div class="card col l2 m6 s12" id="projects">
-                    <div class="number">12</div>
+                    <div class="number">
+                        <?php
+                            $QUERY=executeQuery("select * FROM progetti where FK_UTENTE=".$_SESSION["ID"]);
+                            echo $QUERY->num_rows; 
+                        ?>
+                    </div>
                     <div class="subtitle">PROJECTS</div>
                     <paper-ripple recenters></paper-ripple>
                 </div>
                 <div class="card col l2 m6 s12" id="my-collections">
-                    <div class="number">27</div>
+                    <div class="number">
+                        <?php
+                            $QUERY=executeQuery("select * FROM collezioni where FK_UTENTE=".$_SESSION["ID"]);
+                            echo $QUERY->num_rows; 
+                        ?>
+                    </div>
                     <div class="subtitle">MY COLLECTIONS</div>
                     <paper-ripple recenters></paper-ripple>
                 </div>
                 <div class="card col l2 m6 s12" id="followed-collections">
-                    <div class="number">24</div>
+                    <div class="number">
+                        <?php
+                            $QUERY=executeQuery("select * FROM utenti_seguono_collezioni where FK_UTENTE=".$_SESSION["ID"]);
+                            echo $QUERY->num_rows; 
+                        ?>
+                    </div>
                     <div class="subtitle">FOLLOWED COLLECTIONS</div>
                     <paper-ripple recenters></paper-ripple>
                 </div>
