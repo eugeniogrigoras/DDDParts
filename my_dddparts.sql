@@ -1,28 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.4.14
--- http://www.phpmyadmin.net
---
--- Host: 127.0.0.1
--- Creato il: Feb 19, 2016 alle 19:11
--- Versione del server: 5.6.26
--- Versione PHP: 5.6.12
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `my_dddparts`
---
-CREATE DATABASE IF NOT EXISTS `my_dddparts` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `my_dddparts`;
-
--- --------------------------------------------------------
 
 --
 -- Struttura della tabella `categorie_primarie`
@@ -8242,7 +8217,7 @@ CREATE TABLE IF NOT EXISTS `province` (
   `nomeprovincia` varchar(20) NOT NULL DEFAULT '',
   `idregione` int(4) NOT NULL DEFAULT '0',
   `siglaprovincia` char(2) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=109 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `province`
@@ -8366,7 +8341,7 @@ INSERT INTO `province` (`idprovincia`, `nomeprovincia`, `idregione`, `siglaprovi
 CREATE TABLE IF NOT EXISTS `regioni` (
   `idregione` int(4) NOT NULL,
   `nomeregione` varchar(50) NOT NULL DEFAULT ''
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `regioni`
@@ -8418,20 +8393,10 @@ CREATE TABLE IF NOT EXISTS `utenti` (
   `EMAIL` varchar(30) DEFAULT NULL,
   `DESCRIZIONE` varchar(300) DEFAULT NULL,
   `PASSWORD` varchar(30) DEFAULT NULL,
-  `IMMAGINE_PROFILO` varchar(100) DEFAULT NULL,
   `CODICE_CONFERMA` varchar(10) DEFAULT NULL,
   `ACCETTATO` tinyint(1) DEFAULT NULL,
   `FK_COMUNE` int(11) DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
-
---
--- Dump dei dati per la tabella `utenti`
---
-
-INSERT INTO `utenti` (`ID`, `NOME`, `COGNOME`, `EMAIL`, `DESCRIZIONE`, `PASSWORD`, `IMMAGINE_PROFILO`, `CODICE_CONFERMA`, `ACCETTATO`, `FK_COMUNE`) VALUES
-(34, 'Eugeniu', 'Grigoras', 'eugeniogrigoras@gmail.com', 'Ciao, mi chiamo Eugeniu!', '23dodici1996', 'users/Eugeniu-Grigoras-eugeniogrigoras@gmail.com/profile.jpg', '2aHTAnUL0d', 0, 1614);
-
--- --------------------------------------------------------
 
 --
 -- Struttura della tabella `utenti_commentano_progetti`
