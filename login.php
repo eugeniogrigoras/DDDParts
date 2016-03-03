@@ -1,6 +1,7 @@
 <?php 
+    error_reporting(0);
     session_start();
-    if (isset($_REQUEST["logout"]) && $_REQUEST["logout"]=="true") {
+    if (isset($_REQUEST["fx"]) && $_REQUEST["fx"]=="logout" && isset($_REQUEST["value"]) && $_REQUEST["value"]=="true") {
         session_unset();
         session_destroy(); 
     }

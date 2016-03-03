@@ -129,11 +129,11 @@
     <div class="vertical-section" style="padding:0;">
         <?php 
             echo "<div class=\"title\" style=\"padding:24px\">"
-            ."<iron-icon onclick=\"location.href ='login.php?logout=true'\" id=\"logout\" icon=\"exit-to-app\" style=\"margin-right:24px; cursor:pointer\"></iron-icon>"
+            ."<iron-icon onclick=\"location.href ='login.php?fx=logout&value=true'\" id=\"logout\" icon=\"exit-to-app\" style=\"margin-right:24px; cursor:pointer\"></iron-icon>"
             .$_SESSION["NOME"]." "
             .$_SESSION["COGNOME"]
             ."<div class=\"flex\"></div>"
-            ."<iron-icon onclick=\"location.href ='changeInformation.php?change=true'\" id=\"settings\" icon=\"settings\" style=\"cursor:pointer\"></iron-icon></div>";
+            ."<iron-icon onclick=\"location.href ='changeInformation.php'\" id=\"settings\" icon=\"settings\" style=\"cursor:pointer\"></iron-icon></div>";
         ?>
         <paper-tooltip for="logout" position="top" offset="0" animation-delay="0">Logout</paper-tooltip>
         <paper-tooltip for="settings" position="top" offset="0" animation-delay="0">Settings</paper-tooltip>

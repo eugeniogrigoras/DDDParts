@@ -82,12 +82,8 @@
             <paper-dropdown-menu id="region" error-message="Select one!" label="Region" style="width: 100%;" required>
                 <paper-listbox class="dropdown-content" style="width:200px!important">
                     <?php
-                        $conn= new mysqli("localhost","root","",'my_dddparts'); 
-                        
-                        $comando="select * from regioni order by regioni.nomeregione";
+                        $record = executeQuery("select * from regioni order by regioni.nomeregione");
 
-                        $record=$conn->query($comando);
-                       
                         while ($riga=$record->fetch_assoc()) {
                             echo "<paper-item onclick='regionselect(this.id)' id='";
                             echo "$riga[idregione]";
@@ -95,8 +91,6 @@
                             echo "$riga[nomeregione]";
                             echo "</paper-item>";
                         }
-
-                        mysqli_close($conn);
                     ?>
                 </paper-listbox>
             </paper-dropdown-menu>

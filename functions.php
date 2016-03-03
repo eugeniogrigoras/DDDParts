@@ -1,4 +1,5 @@
 <?php
+	error_reporting(0);
 	session_start();
     if ($_SESSION==array()) {
     	if (curPageName()=='functions.php'){
@@ -33,18 +34,18 @@
     	$codice=$_REQUEST['codice'];
 		$id=$_REQUEST['id'];
 		if (!isset($codice) || !isset($id)) {
-			header("location: login.php?err=noUser");
+			header("location: login.php?fx=error&value=nouser");
 			exit();
 		} else {
 			$QUERY=executeQuery("select * from utenti where CODICE_CONFERMA='$codice' and ID=$id");
 			if ($QUERY) {
 				$QUERY=executeQuery("update utenti SET ACCETTATO = '1' WHERE ID = $id;");
 				if ($QUERY) {
-					header("location: login.php?confirmed=true");
+					header("location: login.php?fx=confirmed&value=true");
 					exit();
 				}
 			} else {
-				header("location: login.php?err=noUserInDatabase");
+				header("location: login.php?fx=error&value=nouserindatabase");
 				exit();
 			}
 		}
@@ -68,10 +69,10 @@
 	   							changePassword($_REQUEST["password"]);
 	   						}
 						}
-						header("location: account.php?updated=true");
+						header("location: account.php?fx=update&value=true");
 						exit();
 					}
-					header("location: account.php?updated=false");
+					header("location: account.php?fx=update&value=false");
 					exit();
    					break;
 
@@ -79,7 +80,7 @@
    					$email = $_REQUEST['email'];
 					$pass = $_REQUEST['password'];
    					if (!isset($email) || !isset($pass)) {
-   						header("location: login.php?err=true");
+   						header("location: login.php?fx=error&value=true");
    						exit();
    					} else {
 						$ris=executeQuery("select * from utenti where utenti.EMAIL='$email' AND utenti.PASSWORD='$pass'");
@@ -92,7 +93,7 @@
 							header("location: index.php");
 							exit();
 						} else {
-							header("location: login.php?err=true");
+							header("location: login.php?fx=error&value=true");
    							exit();
 						}
    					}
@@ -108,14 +109,14 @@
 				    $repeat_password = $_REQUEST['repeat_password'];
 				    $description = $_REQUEST['descriptionhidden'];
 				    if ((!isset($name) || !isset($surname) || !isset($email) || !isset($comune) || !isset($password) || !isset($description)) || ($repeat_password!=$password) || (strlen($password)==0)) {
-				    	header("location: register.php?err=true");
+				    	header("location: register.php?fx=error&value=true");
    						exit();
 				    } else {
 				    	$randomString=randomString(10);
 				    	$QUERY=executeQuery("insert ignore into utenti  (NOME, COGNOME, EMAIL, DESCRIZIONE, PASSWORD, CODICE_CONFERMA, ACCETTATO, FK_COMUNE) VALUES ('$name', '$surname', '$email', '$description', '$password', '$randomString', 'FALSE', '$comune')");
 				    	$last_id = $_SESSION["LASTINSERTEDID"];
 				    	if ($last_id==0) {
-			                header("location: register.php?err=mailAlreadyExist");
+			                header("location: register.php?fx=error&value=mailalreadyexist");
 			                exit();
 			            } else {
 			            	$_SESSION["ID"]=$last_id;
