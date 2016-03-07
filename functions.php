@@ -7,7 +7,7 @@
 	    		
 	    	} else {
 	    		if ((isset($_REQUEST["getpage"])) && ($_REQUEST["getpage"]=="activate")) {
-
+	    			activate();
 	    		} else {
 	    			header("location: login.php");
 	    			exit();
@@ -30,7 +30,7 @@
 		}
     }
 
-    if ((isset($_REQUEST["getpage"])) && ($_REQUEST["getpage"]=="activate")) {
+   function activate() {
     	$codice=$_REQUEST['codice'];
 		$id=$_REQUEST['id'];
 		if (!isset($codice) || !isset($id)) {
@@ -56,6 +56,20 @@
    			switch ($_REQUEST["getpage"]) {
 
    				case 'changeInformation':
+
+   					$key = ini_get("session.upload_progress.prefix") . $_POST[ini_get("session.upload_progress.name")];
+					var_dump($_SESSION[$key]);
+					print_r($_SESSION);
+
+					if (!empty($_SESSION[$key])) {
+					    $current = $_SESSION[$key]["bytes_processed"];
+					    $total = $_SESSION[$key]["content_length"];
+					    echo $current < $total ? ceil($current / $total * 100) : 100;
+					}
+					else {
+					    echo 100;
+					}
+
    					imageUpload();
 					$data=requestData();
 					if ($data) {
@@ -69,10 +83,10 @@
 	   							changePassword($_REQUEST["password"]);
 	   						}
 						}
-						header("location: account.php?fx=update&value=true");
+						//header("location: account.php?fx=update&value=true");
 						exit();
 					}
-					header("location: account.php?fx=update&value=false");
+					//header("location: account.php?fx=update&value=false");
 					exit();
    					break;
 
@@ -106,9 +120,8 @@
 				    $email = $_REQUEST['email'];
 				    $comune = $_REQUEST['comunehidden'];
 				    $password = $_REQUEST['password'];
-				    $repeat_password = $_REQUEST['repeat_password'];
 				    $description = $_REQUEST['descriptionhidden'];
-				    if ((!isset($name) || !isset($surname) || !isset($email) || !isset($comune) || !isset($password) || !isset($description)) || ($repeat_password!=$password) || (strlen($password)==0)) {
+				    if ((!isset($name) || !isset($surname) || !isset($email) || !isset($comune) || !isset($password) || !isset($description)) || (strlen($password)==0)) {
 				    	header("location: register.php?fx=error&value=true");
    						exit();
 				    } else {
@@ -116,6 +129,8 @@
 				    	$QUERY=executeQuery("insert ignore into utenti  (NOME, COGNOME, EMAIL, DESCRIZIONE, PASSWORD, CODICE_CONFERMA, ACCETTATO, FK_COMUNE) VALUES ('$name', '$surname', '$email', '$description', '$password', '$randomString', 'FALSE', '$comune')");
 				    	$last_id = $_SESSION["LASTINSERTEDID"];
 				    	if ($last_id==0) {
+				    		session_unset();
+        					session_destroy();
 			                header("location: register.php?fx=error&value=mailalreadyexist");
 			                exit();
 			            } else {
@@ -312,7 +327,7 @@
 		if ($_FILES['fileToUpload']['size'] == 0 || $_FILES['fileToUpload']['error'] != 0) {
             echo "Error!";     
         } else { 
-            // Qua diamo il nome all'immagine: NomeCognome + . + estensione; quindi dobbiamo solo dare il nome
+            // Qua diamo il nome all'immagine
             $_FILES['fileToUpload']['name']="profile.".pathinfo($_FILES['fileToUpload']['name'],PATHINFO_EXTENSION);
             $target_file = requestPath()."/profile.jpg";
             $uploadOk = 1;

@@ -94,13 +94,14 @@
                     ?>
                 </paper-listbox>
             </paper-dropdown-menu>
-            <input type="text" name="comunehidden" value="" id="comunehidden" style="display:none">
             <div id="provinceDiv"></div>
             <div id="comuneDiv"></div>
-            <paper-input required id="password" error-message="Insert password!" name="password" label="Password" type="password"></paper-input>
-            <paper-input required id="repeat_password" error-message="Password is not the same!" name="repeat_password" label="Repeat Password" type="password"></paper-input>
+            <input type="hidden" name="comunehidden" value="" id="comunehidden">
+            <paper-input required id="password" error-message="Insert password!" name="password" label="Password" type="password">
+                <paper-icon-button style="color:#424242" id="passwordIcon" suffix onclick="showPassword();" icon="visibility" alt="clear" title="clear"></paper-icon-button>
+            </paper-input>
             <paper-textarea id="description" name="description" label="Description" type="text" char-counter maxlength="300"></paper-textarea>
-            <input type="text" name="descriptionhidden" value="" id="descriptionhidden" style="display:none">
+            <input type="hidden" name="descriptionhidden" value="" id="descriptionhidden">
             <br><br>
             <paper-checkbox id="privacy" class="grey">I have read and agreed to the Terms of use</paper-checkbox>
             <br><br><br>
@@ -119,25 +120,26 @@
     var cityControl = false;
     var privacyControl = false;
 
-    passwordField=document.getElementById('password');
-    repeatPasswordField=document.getElementById('repeat_password');
-
     $( "#description" ).change(function() {
         document.getElementById('descriptionhidden').value=this.value;
-    });
-
-    $( "#password" ).change(function() {
-        controlloPassword();
-    });
-
-    $( "#repeat_password" ).change(function() {
-        controlloPassword();
     });
 
     function selezionecomune(str) {
         cityControl=true;
         document.getElementById('city').invalid=false;
         document.getElementById('comunehidden').value=str; 
+    }
+
+    function showPassword() {
+        var password = document.getElementById("password");
+        var passwordIcon = document.getElementById("passwordIcon");
+        if (password.type=="password") {
+            password.type="text";
+            passwordIcon.icon="visibility-off";
+        } else {
+            password.type="password";
+            passwordIcon.icon="visibility";
+        }
     }
 
     function regionselect(str) {
@@ -183,35 +185,6 @@
         console.log("Choosed!");
     }
 
-    function controlloPassword() {
-        if ((passwordField.value.length==0) && (repeatPasswordField.value.length==0)) {
-            passwordField.invalid=true;
-            repeatPasswordField.invalid=false;
-            return false;
-        }
-        if ((passwordField.value.length!=0) && (repeatPasswordField.value.length==0)) {
-            passwordField.invalid=false;
-            repeatPasswordField.invalid=true;
-            return false;
-        }
-        if ((passwordField.value.length==0) && (repeatPasswordField.value.length!=0)) {
-            passwordField.invalid=true;
-            repeatPasswordField.invalid=true;
-            return false;
-        }
-        if ((passwordField.value.length!=0) && (repeatPasswordField.value.length!=0)) {
-            if (passwordField.value==repeatPasswordField.value) {
-                passwordField.invalid=false;
-                repeatPasswordField.invalid=false;
-                return true;
-            } else {
-                passwordField.invalid=false;
-                repeatPasswordField.invalid=true;
-                return false
-            } 
-        }
-    }
-
     function submitForm(){
         if (!regionControl) {
             document.getElementById('region').invalid=true;
@@ -222,11 +195,9 @@
                 if (!cityControl) {
                     document.getElementById('city').invalid=true;
                 } else {
-                    if (controlloPassword()) {
-                        if (privacyControl) {
-                            document.getElementById('SubmitButton').click();
-                            console.log("Submitted!"); 
-                        }
+                    if (privacyControl) {
+                        document.getElementById('SubmitButton').click();
+                        console.log("Submitted!"); 
                     }
                 }
             }

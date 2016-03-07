@@ -79,12 +79,14 @@
             $data=requestData();
         ?>
         <form style="padding:12px 24px; padding-bottom:24px;" id="formPost" action="functions.php" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="<?php echo ini_get("session.upload_progress.name"); ?>" value="123" />
             <input type="hidden" value="changeInformation" name="getpage">
             <input value="<?php echo requestPath().'/profile.jpg'; ?>" accept=".jpg,.jpeg" type="file" name="fileToUpload" id="fileToUpload" style="display:none;visibility:hidden;">
             <paper-input required id="currentPassword" error-message="Insert password!" name="password" label="Current Password" type="password"></paper-input>
             <input type="text" name="currentPasswordInvisible" value="<?php echo $data["PASSWORD"]; ?>" id="currentPasswordInvisible" style="display:none">
-            <paper-input id="password" error-message="Insert password!" name="password" label="New Password" type="password" disabled></paper-input>
-            <paper-input id="repeat_password" error-message="Password is not the same!" name="repeat_password" label="Repeat New Password" type="password" disabled></paper-input>
+            <paper-input required disabled id="password" error-message="Insert password!" name="password" label="Password" type="password">
+                <paper-icon-button style="color:#424242" id="passwordIcon" suffix onclick="showPassword();" icon="visibility" alt="clear" title="clear"></paper-icon-button>
+            </paper-input>
             <paper-textarea value="<?php echo $data["DESCRIPTION"]; ?>" id="description" name="description" label="Description" type="text" char-counter maxlength="300" disabled></paper-textarea>
             <input type="text" name="descriptionhidden" value="<?php echo $data["DESCRIPTION"]; ?>" id="descriptionhidden" style="display:none">
             <br><br>
@@ -107,14 +109,6 @@
         document.getElementById('descriptionhidden').value=this.value;
     });
 
-    $( "#password" ).change(function() {
-        controlloPassword();
-    });
-
-    $( "#repeat_password" ).change(function() {
-        controlloPassword();
-    });
-
     $("#currentPassword").change(function(){
         if (document.getElementById('currentPasswordInvisible').value==this.value) {
             $("#password").removeAttr("disabled");
@@ -124,45 +118,26 @@
     	
     });
 
+    function showPassword() {
+        var password = document.getElementById("password");
+        var passwordIcon = document.getElementById("passwordIcon");
+        if (password.type=="password") {
+            password.type="text";
+            passwordIcon.icon="visibility-off";
+        } else {
+            password.type="password";
+            passwordIcon.icon="visibility";
+        }
+    }
+
     function chooseImage() {
         document.getElementById('fileToUpload').click();
         console.log("Choosed!");
     }
 
-    function controlloPassword() {
-        if ((passwordField.value.length==0) && (repeatPasswordField.value.length==0)) {
-            passwordField.invalid=false;
-            repeatPasswordField.invalid=false;
-            return true;
-        }
-        if ((passwordField.value.length!=0) && (repeatPasswordField.value.length==0)) {
-            passwordField.invalid=false;
-            repeatPasswordField.invalid=true;
-            return false;
-        }
-        if ((passwordField.value.length==0) && (repeatPasswordField.value.length!=0)) {
-            passwordField.invalid=true;
-            repeatPasswordField.invalid=true;
-            return false;
-        }
-        if ((passwordField.value.length!=0) && (repeatPasswordField.value.length!=0)) {
-            if (passwordField.value==repeatPasswordField.value) {
-                passwordField.invalid=false;
-                repeatPasswordField.invalid=false;
-                return true;
-            } else {
-                passwordField.invalid=false;
-                repeatPasswordField.invalid=true;
-                return false
-            } 
-        }
-    }
-
     function submitForm(){
-        if (controlloPassword()) {
-            document.getElementById('SubmitButton').click();
-            console.log("Changed!");
-        }  
+        document.getElementById('SubmitButton').click();
+        console.log("Changed!");
      }
 
     $("#fileToUpload").change(function(){
