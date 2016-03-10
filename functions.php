@@ -1,6 +1,8 @@
 <?php
 	error_reporting(0);
 	session_start();
+	//session_set_cookie_params(lifetime);
+	//session_get_cookie_params(oid);
     if ($_SESSION==array()) {
     	if (curPageName()=='functions.php'){
 	    	if((isset($_POST['submit'])) && (isset($_REQUEST["getpage"]))) {
@@ -34,7 +36,7 @@
     	$codice=$_REQUEST['codice'];
 		$id=$_REQUEST['id'];
 		if (!isset($codice) || !isset($id)) {
-			header("location: login.php?fx=error&value=nouser");
+			header("location: login.php?fx=error&value=NoUser");
 			exit();
 		} else {
 			$QUERY=executeQuery("select * from utenti where CODICE_CONFERMA='$codice' and ID=$id");
@@ -45,7 +47,7 @@
 					exit();
 				}
 			} else {
-				header("location: login.php?fx=error&value=nouserindatabase");
+				header("location: login.php?fx=error&value=NoUserInDatabase");
 				exit();
 			}
 		}
@@ -83,10 +85,10 @@
 	   							changePassword($_REQUEST["password"]);
 	   						}
 						}
-						//header("location: account.php?fx=update&value=true");
+						header("location: account.php?fx=update&value=true");
 						exit();
 					}
-					//header("location: account.php?fx=update&value=false");
+					header("location: account.php?fx=update&value=false");
 					exit();
    					break;
 
@@ -94,7 +96,7 @@
    					$email = $_REQUEST['email'];
 					$pass = $_REQUEST['password'];
    					if (!isset($email) || !isset($pass)) {
-   						header("location: login.php?fx=error&value=true");
+   						header("location: login.php?fx=error&value=NoMailOrPassword");
    						exit();
    					} else {
 						$ris=executeQuery("select * from utenti where utenti.EMAIL='$email' AND utenti.PASSWORD='$pass'");
@@ -107,7 +109,7 @@
 							header("location: index.php");
 							exit();
 						} else {
-							header("location: login.php?fx=error&value=true");
+							header("location: login.php?fx=error&value=InputError");
    							exit();
 						}
    					}
@@ -122,7 +124,7 @@
 				    $password = $_REQUEST['password'];
 				    $description = $_REQUEST['descriptionhidden'];
 				    if ((!isset($name) || !isset($surname) || !isset($email) || !isset($comune) || !isset($password) || !isset($description)) || (strlen($password)==0)) {
-				    	header("location: register.php?fx=error&value=true");
+				    	header("location: register.php?fx=error&value=DataMissing");
    						exit();
 				    } else {
 				    	$randomString=randomString(10);
@@ -131,14 +133,9 @@
 				    	if ($last_id==0) {
 				    		session_unset();
         					session_destroy();
-			                header("location: register.php?fx=error&value=mailalreadyexist");
+			                header("location: register.php?fx=error&value=MailAlreadyExist");
 			                exit();
 			            } else {
-			            	$_SESSION["ID"]=$last_id;
-							$_SESSION["NOME"]=$name;
-							$_SESSION["COGNOME"]=$surname;
-							$_SESSION["EMAIL"]=$email;
-
 			            	echo "New record created successfully. Last inserted ID is: " . $last_id;
 			            	if (!file_exists(requestPath())) {
 			                    mkdir(requestPath(), 0777, true);

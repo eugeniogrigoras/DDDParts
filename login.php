@@ -60,16 +60,18 @@
 <div class="centered" style="margin-top:24px">
     <div class="vertical-section" style="padding:0;">
         <?php 
-            if (!isset($_REQUEST["err"])) {
+            if (!isset($_REQUEST["fx"])) {
                 echo "<div class=\"title\" style=\"padding:24px\">Login</div>";
-            } else if ($_REQUEST["err"]) {
-                echo "<div class=\"title\" style=\"padding:24px\">Login - Error</div>";
+            } else if ($_REQUEST["fx"]=="error") {
+                echo "<div class=\"title\" style=\"padding:24px\">Login - ".$_REQUEST["value"]."</div>";
             }
         ?>
         <form style="padding:24px;" id="formPost" action="functions.php" method="post" enctype="multipart/form-data">
             <input type="hidden" value="login" name="getpage">
             <gold-email-input name="email" required auto-validate error-message="Please enter a valid email!" label="Email contact"></gold-email-input>
-            <paper-input name="password" label="Password" type="password" required></paper-input>
+            <paper-input required id="password" error-message="Insert password!" name="password" label="Password" type="password">
+                <paper-icon-button style="color:#424242" id="passwordIcon" suffix onclick="showPassword();" icon="visibility" alt="clear" title="clear"></paper-icon-button>
+            </paper-input>
             <br>
             <paper-checkbox checked class="grey">Remember me</paper-checkbox>
             <br><br>
@@ -94,6 +96,17 @@
     function submitForm(){
         document.getElementById('SubmitButton').click();
         console.log("Login!");
+    }
+    function showPassword() {
+        var password = document.getElementById("password");
+        var passwordIcon = document.getElementById("passwordIcon");
+        if (password.type=="password") {
+            password.type="text";
+            passwordIcon.icon="visibility-off";
+        } else {
+            password.type="password";
+            passwordIcon.icon="visibility";
+        }
     }
 </script>
 

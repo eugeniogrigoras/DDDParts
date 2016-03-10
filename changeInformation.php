@@ -84,8 +84,8 @@
             <input value="<?php echo requestPath().'/profile.jpg'; ?>" accept=".jpg,.jpeg" type="file" name="fileToUpload" id="fileToUpload" style="display:none;visibility:hidden;">
             <paper-input required id="currentPassword" error-message="Insert password!" name="password" label="Current Password" type="password"></paper-input>
             <input type="text" name="currentPasswordInvisible" value="<?php echo $data["PASSWORD"]; ?>" id="currentPasswordInvisible" style="display:none">
-            <paper-input required disabled id="password" error-message="Insert password!" name="password" label="Password" type="password">
-                <paper-icon-button style="color:#424242" id="passwordIcon" suffix onclick="showPassword();" icon="visibility" alt="clear" title="clear"></paper-icon-button>
+            <paper-input disabled id="password" error-message="Insert password!" name="password" label="Password" type="password">
+                <paper-icon-button style="color:#424242" id="passwordIcon" suffix onclick="showPassword();" icon="visibility" alt="visibility" title="visibility"></paper-icon-button>
             </paper-input>
             <paper-textarea value="<?php echo $data["DESCRIPTION"]; ?>" id="description" name="description" label="Description" type="text" char-counter maxlength="300" disabled></paper-textarea>
             <input type="text" name="descriptionhidden" value="<?php echo $data["DESCRIPTION"]; ?>" id="descriptionhidden" style="display:none">
